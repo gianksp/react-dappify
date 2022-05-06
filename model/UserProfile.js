@@ -21,7 +21,7 @@ export default class UserProfile {
     source;
 
     constructor(user) {
-        if (typeof user === 'string' || user instanceof String) this.#fromRest(user);
+        if (typeof user === 'string' || user instanceof String) return this.#fromRest(user);
         return this.#fromProvider(user);
     }
 

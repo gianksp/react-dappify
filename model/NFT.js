@@ -116,7 +116,6 @@ export default class Nft {
 
         const env = currentProject.isTestEnvironment ? 'test' : 'main';
         const contractAddress = currentProject.config.template.marketplace[env].contract;
-        console.log(contractAddress);
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
 
@@ -126,7 +125,6 @@ export default class Nft {
         if (getappr !== contractAddress) {
             const txApprove = await tokenContact.approve(marketplace.marketplaceAddress, this.tokenId);
             const approval = await txApprove.wait();
-            console.log(approval);
         }
 
         const transaction = await marketplace.contract.placeOffering(this.collection.address, this.tokenId, ethers.utils.parseEther(JSON.stringify(price)));
@@ -335,7 +333,6 @@ export default class Nft {
     }
 
     static fullTextSearch = async(text) => {
-        const context = await UserProfile.getCurrentUserContext();
         const items = await Moralis.Cloud.run('search', { filter: text });
         const itemList = items.map((item) => {
             switch(item.className) {

@@ -46,7 +46,8 @@ const useDappify = () => {
         if (!isAuthenticated) return;
         if (isRightNetwork) return;
         const network = project?.getNetworkContext('marketplace');
-        const chainId = network.chainId;
+        const chainId = network?.chainId;
+        if (!chainId) return;
         try {
             await provider.provider.request({
               method: "wallet_switchEthereumChain",
