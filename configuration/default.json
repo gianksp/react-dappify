@@ -1,0 +1,167 @@
+{
+  "appId": "uxgx3v3cIfJYxfc2GHowqeMU",
+  "name": "Chainbeatz",
+  "description": "Sell your beats for crypto",
+  "subdomain": "chainbeatz",
+  "logo": "https://i.ibb.co/n8JYmgL/chainbeatz.png",
+  "icon": "https://i.ibb.co/NrT5F8w/iconchainbeatzsmall.png",
+  "theme": {
+    "shape": {
+       "borderRadius": 8
+    }, 
+    "palette": {
+      "mode": "dark",
+      "primary": {
+        "main": "#5e5fef"
+      },
+      "secondary": {
+        "main": "#45b26b"
+      },
+      "contrastThreshold": 3,
+      "tonalOffset": 0.2
+    },
+    "typography": {
+      "button": {
+        "textTransform": "none"
+      }
+    },
+    "components": {
+      "MuiButton": {
+        "styleOverrides": {
+          "root": {
+            "borderRadius": "25px"
+          }
+        }
+      }
+    }
+  },
+  "translation": {
+    "resources": {
+      "en": {
+        "translation": {
+          "Welcome to React": "El Cocoloco"
+        }
+      }
+    },
+    "lng": "en",
+    "fallbackLng": "en",
+    "interpolation": {
+      "escapeValue": false
+    }
+  },
+  "social": {
+    "facebook": "a",
+    "twitter": "a",
+    "instagram": "a",
+    "pinterest": "a",
+    "email": "a",
+    "telegram": "a"
+  },
+  "footer": {
+    "left": {
+        "title": "Resources",
+        "items": [
+          { "title": "Support Email", "link": "b" },
+          { "title": "Partnerships", "link": "chainbeatz.com/partners" },
+          { "title": "Discord", "link": "https://discord.gg/HuPhEtNCZV" },
+          { "title": "Whitepaper", "link": "https://www.chainbeatz.com/_files/ugd/5a05ac_ac24efa25ac7486792559396f58a6d2a.pdf" },
+          { "title": "Website", "link": "chainbeatz.com" }
+        ]
+    },
+    "center": {
+      "title": "Community",
+      "items": [
+        { "title": "Telegram", "link": "t.me/chainbeatz" },
+        { "title": "Youtube", "link": "https://www.youtube.com/channel/UCAJXL7qAU_vZ1S7kfzqKpBQ" },
+        { "title": "Reddit", "link": "https://www.reddit.com/r/ChainBeatzOfficial/" },
+        { "title": "Twitter", "link": "https://twitter.com/teamchainbeatz" }
+      ]
+    },
+    "right": {
+      "title": "ChainBeatz (Marketplace)",
+      "items": [
+        { "title": "Discover", "link": "/explore" },
+        { "title": "Virtual Land", "link": "/explore?category=virtualland" },
+        { "title": "Buy $BEATZ", "link": "b" },
+        { "title": "Collectibles", "link": "b" },
+        { "title": "Verify", "link": "https://google.com" }
+      ]
+    }
+  },
+  "categories": [
+    {
+      "icon": "local_activity",
+      "uri": "beats"
+    },
+    {
+      "icon": "local_activity",
+      "uri": "samples"
+    },
+    {
+      "icon": "local_activity",
+      "uri": "loopkits"
+    },
+    {
+      "icon": "local_activity",
+      "uri": "drumkits"
+    },
+    {
+      "icon": "local_activity",
+      "uri": "collectibles"
+    },
+    {
+      "icon": "local_activity",
+      "uri": "virtuallands"
+    }
+  ],
+  "landingPage": {
+    "background": null,
+    "sections": [
+        {
+          "type": "static",
+          "metadata": {
+            "title": "Sell your beats for crypto",
+            "subtitle": "CREATE, SHARE & COLLECT DIGITAL MUSIC NFTS",
+            "cta": "/explore",
+            "background": null
+          }
+        },
+        {
+          "type": "individualShowcase",
+          "metadata": {
+
+          }
+        },
+        {
+          "type": "sellers",
+          "metadata": {
+              
+            }
+        },
+        {
+          "type": "groupShowcase",
+          "metadata": {
+              
+            }
+        },
+        {
+          "type": "categories",
+          "metadata": {
+              
+            }
+        }
+      ]
+  },
+  "template": {
+    "marketplace": {
+      "test": {
+        "chainId": "0x61",
+        "contract": "0xBAf13f73d862Ca9c25c33D4D3015cF494ab8C3AA"
+      },
+      "main": {
+        "chainId": "0x61",
+        "contract": "0xBAf13f73d862Ca9c25c33D4D3015cF494ab8C3AA"
+      }
+    }
+  }
+}
