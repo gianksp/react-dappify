@@ -1,16 +1,16 @@
 {
-  "appId": "uxgx3v3cIfJYxfc2GHowqeMU",
-  "name": "Chainbeatz",
-  "description": "Sell your beats for crypto",
-  "subdomain": "chainbeatz",
-  "logo": "https://i.ibb.co/n8JYmgL/chainbeatz.png",
-  "icon": "https://i.ibb.co/NrT5F8w/iconchainbeatzsmall.png",
+  "appId": "",
+  "name": "",
+  "description": "",
+  "subdomain": "",
+  "logo": "https://ipfs.io/ipfs/QmZXpF98YKFq5zvjNrzmkwocMJJTKX1UngDAgxVSndS11J",
+  "icon": "https://ipfs.io/ipfs/QmZXpF98YKFq5zvjNrzmkwocMJJTKX1UngDAgxVSndS11J",
   "theme": {
     "shape": {
        "borderRadius": 8
     }, 
     "palette": {
-      "mode": "dark",
+      "mode": "light",
       "primary": {
         "main": "#5e5fef"
       },
@@ -29,7 +29,7 @@
       "MuiButton": {
         "styleOverrides": {
           "root": {
-            "borderRadius": "25px"
+            "borderRadius": 0
           }
         }
       }
@@ -39,7 +39,64 @@
     "resources": {
       "en": {
         "translation": {
-          "Welcome to React": "El Cocoloco"
+          "Title": "Your Title",
+          "Tagline": "Your Tagline",
+          "Get started": "Get started",
+          "Explore": "Discover",
+          "Stats": "Activity",
+          "Search items": "Search items, collections and accounts",
+          "Purchase": "Buy",
+          "View artwork": "View Artwork",
+          "Price": "Price",
+          "Not for sale": "Not for sale",
+          "Browse by category": "Browse By Category",
+          "Top sellers": "Top Sellers",
+          "New items": "New Items",
+          "Hot collections": "Hot Collections",
+          "Connect your wallet": "Connect your wallet",
+          "Most popular": "Most Popular",
+          "Metamask": "Start exploring blockchain applications in seconds. Trusted by over 1 million users worldwide.",
+          "Connected to:": "Connected to:",
+          "Switch to:": "Switch to:",
+          "My profile": "My Profile",
+          "Logout": "Logout",
+          "Balance": "Balance",
+          "Owned": "Owned",
+          "On sale": "On Sale",
+          "Withdraw": "Withdraw",
+          "Edit profile": "Edit Profile",
+          "Member since": "Member since",
+          "Username": "Username",
+          "Username placeholder": "Your unique username",
+          "Bio": "Bio",
+          "Bio placeholder": "Tell everyone who you are!",
+          "Twitter": "Twitter",
+          "Twitter placeholder": "Your personal twitter account",
+          "Wallet": "Wallet",
+          "Wallet placeholder": "Your wallet address",
+          "Profile": "Profile",
+          "Upload": "Upload",
+          "Profile image": "Profile Image",
+          "Profile banner": "Profile Banner",
+          "Update profile": "Update Profile",
+          "Category": "Categories",
+          "None": "None",
+          "Cancel": "Cancel",
+          "Confirm": "Confirm",
+          "Please wait": "Please wait",
+          "Select a category": "Select a category",
+          "Details": "Details",
+          "History": "History",
+          "Owner": "Owner",
+          "Purchase confirmation": "Do you want to buy {{name}} for {{price}} {{unit}}?",
+          "Withdraw confirmation": " This action will remove this item from being accessible in this marketplace for buyers. It will carry additional gas costs to continue the process with the smart contract.",
+          "Withdraw from marketplace": "Withdraw from marketplace",
+          "Edit confirmation": "Set a new price for item in marketplace {{name}}",
+          "Edit pricing": "Edit pricing",
+          "Owner not verified": "This owner is not verified. Purchase this item at your own risk",
+          "Owner verified": "This owner is verified",
+          "Transaction successful": "Your transaction was successful!",
+          "Please do not close this window": "Please don't close this window until we have confirmed your transaction! we will let you know shortly"
         }
       }
     },
@@ -50,68 +107,50 @@
     }
   },
   "social": {
-    "facebook": "a",
-    "twitter": "a",
-    "instagram": "a",
-    "pinterest": "a",
-    "email": "a",
-    "telegram": "a"
+    "facebook": "",
+    "twitter": "",
+    "instagram": "",
+    "pinterest": "",
+    "email": "",
+    "telegram": ""
   },
   "footer": {
     "left": {
-        "title": "Resources",
+        "title": "Column 1",
         "items": [
-          { "title": "Support Email", "link": "b" },
-          { "title": "Partnerships", "link": "chainbeatz.com/partners" },
-          { "title": "Discord", "link": "https://discord.gg/HuPhEtNCZV" },
-          { "title": "Whitepaper", "link": "https://www.chainbeatz.com/_files/ugd/5a05ac_ac24efa25ac7486792559396f58a6d2a.pdf" },
-          { "title": "Website", "link": "chainbeatz.com" }
+          { "title": "", "link": "" },
+          { "title": "", "link": "" },
+          { "title": "", "link": "" },
+          { "title": "", "link": "" },
+          { "title": "", "link": "" }
         ]
     },
     "center": {
-      "title": "Community",
+      "title": "Column 2",
       "items": [
-        { "title": "Telegram", "link": "t.me/chainbeatz" },
-        { "title": "Youtube", "link": "https://www.youtube.com/channel/UCAJXL7qAU_vZ1S7kfzqKpBQ" },
-        { "title": "Reddit", "link": "https://www.reddit.com/r/ChainBeatzOfficial/" },
-        { "title": "Twitter", "link": "https://twitter.com/teamchainbeatz" }
+        { "title": "", "link": "" },
+        { "title": "", "link": "" },
+        { "title": "", "link": "" },
+        { "title": "", "link": "" },
+        { "title": "", "link": "" }
       ]
     },
     "right": {
-      "title": "ChainBeatz (Marketplace)",
+      "title": "Column 3",
       "items": [
-        { "title": "Discover", "link": "/explore" },
-        { "title": "Virtual Land", "link": "/explore?category=virtualland" },
-        { "title": "Buy $BEATZ", "link": "b" },
-        { "title": "Collectibles", "link": "b" },
-        { "title": "Verify", "link": "https://google.com" }
+        { "title": "", "link": "" },
+        { "title": "", "link": "" },
+        { "title": "", "link": "" },
+        { "title": "", "link": "" },
+        { "title": "", "link": "" }
       ]
     }
   },
   "categories": [
     {
-      "icon": "local_activity",
-      "uri": "beats"
-    },
-    {
-      "icon": "local_activity",
-      "uri": "samples"
-    },
-    {
-      "icon": "local_activity",
-      "uri": "loopkits"
-    },
-    {
-      "icon": "local_activity",
-      "uri": "drumkits"
-    },
-    {
-      "icon": "local_activity",
-      "uri": "collectibles"
-    },
-    {
-      "icon": "local_activity",
-      "uri": "virtuallands"
+      "icon": "test",
+      "uri": "test",
+      "label": "Test"
     }
   ],
   "landingPage": {
@@ -120,8 +159,6 @@
         {
           "type": "static",
           "metadata": {
-            "title": "Sell your beats for crypto",
-            "subtitle": "CREATE, SHARE & COLLECT DIGITAL MUSIC NFTS",
             "cta": "/explore",
             "background": null
           }
@@ -155,12 +192,12 @@
   "template": {
     "marketplace": {
       "test": {
-        "chainId": "0x61",
-        "contract": "0xBAf13f73d862Ca9c25c33D4D3015cF494ab8C3AA"
+        "chainId": "",
+        "contract": ""
       },
       "main": {
-        "chainId": "0x61",
-        "contract": "0xBAf13f73d862Ca9c25c33D4D3015cF494ab8C3AA"
+        "chainId": "",
+        "contract": ""
       }
     }
   }

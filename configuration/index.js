@@ -6,7 +6,7 @@ const setDocumentMetadata = (config) => {
     meta.namedItem('description').setAttribute('content', config.description);
     meta.namedItem('author').setAttribute('content', config.name);
     const link = document.getElementsByTagName('link');
-    link.namedItem('icon').setAttribute('href', config.icon);
+    link.namedItem('icon')?.setAttribute('href', config.icon);
 };
 
 export const loadConfiguration = async () => {

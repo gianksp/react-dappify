@@ -12,6 +12,8 @@ export default class Project {
     config;
     source;
     isTestEnvironment;
+    createdAt;
+    updatedAt;
 
     static getInstance = async () => {
         if (Project.instance) return Project.instance;
@@ -41,6 +43,8 @@ export default class Project {
         this.id = project.id;
         this.isTestEnvironment = project.isTestEnvironment;
         this.config = project.get('config');
+        this.createdAt = project.get('createdAt');
+        this.updatedAt = project.get('updatedAt');
         this.source = project;
         return this;
     }
@@ -81,5 +85,53 @@ export default class Project {
         const { currentProject } = context;
         const tokenPrice = await Moralis.Cloud.run('getTokenPrice', { address: currentProject.config.tokenContractAddress });
         return tokenPrice?.data ? tokenPrice.data : {};
+    }
+
+    static listAll = async() => {
+        const query = new Moralis.Query('Project');
+        const result = await query.find();
+        return result.map((project) => new Project(project));
+    }
+
+    static exists = async(subdomain) => {
+        const query = new Moralis.Query('Project');
+        query.equalTo("subdomain", subdomain.toLocaleLowerCase());
+        const result = await query.first();
+        return result;
+    }
+
+    static create = async(appConfiguration, user) => {
+        const Project = Moralis.Object.extend('Project');
+        const project = new Project();
+        project.set('config', appConfiguration);
+        project.set('owner', user);
+        project.set('subdomain', appConfiguration.subdomain);
+        const createdProject = await project.save();
+        appConfiguration.appId = createdProject.id;
+        createdProject.set('config', appConfiguration);
+        const savedProject = await createdProject.save();
+        return savedProject;
+    }
+
+    static publishChanges = async(appConfiguration, user) => {
+        const project = await Project.findWithId(appConfiguration.appId, user);
+        project.set('config', appConfiguration);
+        console.log(project);
+        return await project.save();
+    }
+
+    static destroy = async(appConfiguration, user) => {
+        console.log(appConfiguration);
+        const project = await Project.findWithId(appConfiguration.appId, user);
+        console.log(project);
+        return await project.destroy();
+    }
+
+    static findWithId = async(appId, user) => {
+        const Project = Moralis.Object.extend('Project');
+        const query = new Moralis.Query(Project);
+        query.equalTo('objectId', appId);
+        query.equalTo('owner', user);
+        return await query.first();
     }
 }

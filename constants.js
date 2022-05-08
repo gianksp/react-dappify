@@ -25,7 +25,7 @@ const constants = {
         },        
         "0x4": {
             chainId: "0x4",
-            chainName: "Ropsten Test Network",
+            chainName: "Rinkeby Test Network",
             rpcUrls: ["https://rinkeby.infura.io/v3/"],
             nativeCurrency: {
               name: "Ether",
@@ -132,6 +132,15 @@ const constants = {
         BNB: 'https://cryptologos.cc/logos/bnb-bnb-logo.svg',
         Matic: 'https://cryptologos.cc/logos/polygon-matic-logo.svg',
         ETH: 'https://cryptologos.cc/logos/ethereum-eth-logo.svg'
+    },
+    MAINNETS: [
+      "0xa86a", "0x38", "0x89", "0x1"
+    ],
+    TESTNETS: {
+      "0xa86a": ["0xa869"],
+      "0x38": ["0x61"],
+      "0x89": ["0x13881"],
+      "0x1": ["0x3","0x4","0x5", "0x2a"]
     }
 };
 

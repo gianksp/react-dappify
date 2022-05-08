@@ -242,7 +242,7 @@ Moralis.Cloud.define("getNftsForAddress", async (request) => {
   const config = project.get("config");
   const mconfig = await Moralis.Config.get({useMasterKey: true});
   const apiKey = mconfig.get("apiKey");
-  logger.info(`[CALL] getNfts for address ${request.params.address} for project ${project.get("subdomain")} on chain ${config.network.chain}`);
+  logger.info(`[CALL] getNfts for address ${request.params.address} for project ${project.get("subdomain")} on chain ${request.params.chainId}`);
   const network = request.params.chainId;
   const address = request.params.address;
   return await Moralis.Cloud.httpRequest(
@@ -257,4 +257,20 @@ Moralis.Cloud.define("getNftsForAddress", async (request) => {
        'X-API-Key': apiKey
       }
     });
+});
+
+Moralis.Cloud.beforeSave("Project", async (request) => {
+  logger.info(`[BEFORE_SAVE] Project with request ${JSON.stringify(request)}`);
+  if (!request.object.id) {
+    const { user } = request;
+    const subdomain = request.object.get("subdomain");
+    const query = new Moralis.Query("Project");
+    query.equalTo("subdomain", subdomain);
+    const existingProject = await query.first({ useMasterKey: true });
+    if (existingProject) {
+      throw "Subdomain already exists";
+    } else {
+      request.object.set("owner", user);
+    }
+  }
 });
