@@ -1,8 +1,9 @@
 {
   "appId": "",
   "name": "",
+  "type": "",
   "description": "",
-  "subdomain": "",
+  "subdomain": "my-subdomain",
   "logo": "https://ipfs.io/ipfs/QmZXpF98YKFq5zvjNrzmkwocMJJTKX1UngDAgxVSndS11J",
   "icon": "https://ipfs.io/ipfs/QmZXpF98YKFq5zvjNrzmkwocMJJTKX1UngDAgxVSndS11J",
   "theme": {
@@ -116,7 +117,7 @@
   },
   "footer": {
     "left": {
-        "title": "Column 1",
+        "title": "Footer left column",
         "items": [
           { "title": "", "link": "" },
           { "title": "", "link": "" },
@@ -126,7 +127,7 @@
         ]
     },
     "center": {
-      "title": "Column 2",
+      "title": "Footer center column",
       "items": [
         { "title": "", "link": "" },
         { "title": "", "link": "" },
@@ -136,7 +137,7 @@
       ]
     },
     "right": {
-      "title": "Column 3",
+      "title": "Footer left right",
       "items": [
         { "title": "", "link": "" },
         { "title": "", "link": "" },

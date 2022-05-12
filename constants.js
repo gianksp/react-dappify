@@ -3,7 +3,7 @@ const constants = {
         // Ethereum
         "0x1": {
             chainId: "0x1",
-            chainName: "Ethereum Mainnet",
+            chainName: "Ethereum",
             rpcUrls: ["https://mainnet.infura.io/v3/"],
             nativeCurrency: {
               name: "Ether",
@@ -12,31 +12,9 @@ const constants = {
             },
             blockExplorerUrls: ["https://etherscan.io"]
         },
-        "0x3": {
-            chainId: "0x3",
-            chainName: "Ropsten Test Network",
-            rpcUrls: ["https://ropsten.infura.io/v3/"],
-            nativeCurrency: {
-              name: "Ether",
-              symbol: "ETH",
-              decimals: 18,
-            },
-            blockExplorerUrls: ["https://ropsten.etherscan.io"]
-        },        
-        "0x4": {
-            chainId: "0x4",
-            chainName: "Rinkeby Test Network",
-            rpcUrls: ["https://rinkeby.infura.io/v3/"],
-            nativeCurrency: {
-              name: "Ether",
-              symbol: "ETH",
-              decimals: 18,
-            },
-            blockExplorerUrls: ["https://rinkeby.etherscan.io"]
-        },
         "0x5": {
             chainId: "0x5",
-            chainName: "Goerli Test Network",
+            chainName: "Goerli",
             rpcUrls: ["https://goerli.infura.io/v3/"],
             nativeCurrency: {
               name: "Ether",
@@ -47,7 +25,7 @@ const constants = {
         },
         "0x2a": {
             chainId: "0x2a",
-            chainName: "Kovan Test Network",
+            chainName: "Kovan",
             rpcUrls: ["https://kovan.infura.io/v3/"],
             nativeCurrency: {
               name: "Ether",
@@ -82,7 +60,7 @@ const constants = {
         // Binance chain
         "0x38": {
             chainId: "0x38",
-            chainName: "Binance Smart Chain Mainnet",
+            chainName: "BNB Chain",
             rpcUrls: ["https://bsc-dataseed1.ninicoin.io"],
             nativeCurrency: {
               name: "BNB",
@@ -93,7 +71,7 @@ const constants = {
         },
         "0x61": {
             chainId: "0x61",
-            chainName: "Binance Smart Chain Testnet",
+            chainName: "BNB Chain",
             rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545/"],
             nativeCurrency: {
               name: "BNB",
@@ -105,7 +83,7 @@ const constants = {
         // Avalanche
         "0xa86a": {
             chainId: "0xa86a",
-            chainName: "Avalanche Network",
+            chainName: "Avalanche",
             rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
             nativeCurrency: {
               name: "AVAX",
@@ -116,7 +94,7 @@ const constants = {
         },        
         "0xa869": {
             chainId: "0xa869",
-            chainName: "Avalanche Fuji Testnet",
+            chainName: "Fuji",
             rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
             nativeCurrency: {
               name: "AVAX",
@@ -140,7 +118,14 @@ const constants = {
       "0xa86a": ["0xa869"],
       "0x38": ["0x61"],
       "0x89": ["0x13881"],
-      "0x1": ["0x3","0x4","0x5", "0x2a"]
+      "0x1": ["0x5", "0x2a"]
+    },
+    FAUCETS: {
+      "0xa869": "https://faucet.avax-test.network/",
+      "0x61": "https://testnet.binance.org/faucet-smart",
+      "0x13881": "https://faucet.polygon.technology/",
+      "0x2a": "https://ethdrop.dev/",
+      "0x5": "https://goerlifaucet.com/"
     }
 };
 

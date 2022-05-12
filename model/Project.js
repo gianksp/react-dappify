@@ -87,8 +87,10 @@ export default class Project {
         return tokenPrice?.data ? tokenPrice.data : {};
     }
 
-    static listAll = async() => {
+    static listAll = async(user) => {
         const query = new Moralis.Query('Project');
+        query.equalTo('owner', user);
+        query.descending('updatedAt');
         const result = await query.find();
         return result.map((project) => new Project(project));
     }
