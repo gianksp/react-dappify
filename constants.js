@@ -3,7 +3,7 @@ const constants = {
         // Ethereum
         "0x1": {
             chainId: "0x1",
-            chainName: "Ethereum",
+            chainName: "Ethereum Mainnet",
             rpcUrls: ["https://mainnet.infura.io/v3/"],
             nativeCurrency: {
               name: "Ether",
@@ -14,7 +14,7 @@ const constants = {
         },
         "0x5": {
             chainId: "0x5",
-            chainName: "Goerli",
+            chainName: "Goerli Testnet",
             rpcUrls: ["https://goerli.infura.io/v3/"],
             nativeCurrency: {
               name: "Ether",
@@ -25,7 +25,7 @@ const constants = {
         },
         "0x2a": {
             chainId: "0x2a",
-            chainName: "Kovan",
+            chainName: "Kovan Testnet",
             rpcUrls: ["https://kovan.infura.io/v3/"],
             nativeCurrency: {
               name: "Ether",
@@ -37,7 +37,7 @@ const constants = {
         // Polygon
         "0x89": {
             chainId: "0x89",
-            chainName: "Polygon",
+            chainName: "Polygon Mainnet",
             rpcUrls: ["https://rpc-mainnet.maticvigil.com/"],
             nativeCurrency: {
               name: "Matic",
@@ -48,7 +48,7 @@ const constants = {
         },
         "0x13881": {
             chainId: "0x13881",
-            chainName: "Mumbai",
+            chainName: "Mumbai Testnet",
             rpcUrls: ["https://rpc-mumbai.matic.today"],
             nativeCurrency: {
               name: "Matic",
@@ -60,7 +60,7 @@ const constants = {
         // Binance chain
         "0x38": {
             chainId: "0x38",
-            chainName: "BNB Chain",
+            chainName: "BNB Chain Mainnet",
             rpcUrls: ["https://bsc-dataseed1.ninicoin.io"],
             nativeCurrency: {
               name: "BNB",
@@ -71,7 +71,7 @@ const constants = {
         },
         "0x61": {
             chainId: "0x61",
-            chainName: "BNB Chain",
+            chainName: "BNB Chain Testnet",
             rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545/"],
             nativeCurrency: {
               name: "BNB",
@@ -83,7 +83,7 @@ const constants = {
         // Avalanche
         "0xa86a": {
             chainId: "0xa86a",
-            chainName: "Avalanche",
+            chainName: "Avalanche Mainnet",
             rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
             nativeCurrency: {
               name: "AVAX",
@@ -94,7 +94,7 @@ const constants = {
         },        
         "0xa869": {
             chainId: "0xa869",
-            chainName: "Fuji",
+            chainName: "Fuji Testnet",
             rpcUrls: ["https://api.avax-test.network/ext/bc/C/rpc"],
             nativeCurrency: {
               name: "AVAX",

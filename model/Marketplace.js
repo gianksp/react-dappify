@@ -1,6 +1,6 @@
 import Moralis from 'moralis';
 import { ethers } from 'ethers';
-import MarketplaceContract from 'react-dappify/contracts/Marketplace.sol/Marketplace.json';
+import MarketplaceContract from 'react-dappify/contracts/ERC721MarketplaceV1.sol/ERC721MarketplaceV1.json';
 import UserProfile from 'react-dappify/model/UserProfile';
 
 export default class Marketplace {
@@ -24,17 +24,6 @@ export default class Marketplace {
 		this.signer = signer;
         return this;
     }
-
-	static getBalance = async() => {
-		const context = await UserProfile.getCurrentUserContext();
-        const { currentProfile, currentProject } = context;
-		const env = currentProject.isTestEnvironment ? 'test' : 'main';
-        const contractAddress = currentProject.config.template.marketplace[env].contract;
-		let marketplace = new Marketplace(contractAddress);
-        marketplace = await marketplace.init();
-        const balance = await marketplace.contract.viewBalances(currentProfile.wallet);
-		return ethers.utils.formatEther(balance);
-	}
 
 	static withdrawBalance = async() => {
 		const context = await UserProfile.getCurrentUserContext();

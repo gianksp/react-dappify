@@ -7,7 +7,7 @@ import Metadata from 'react-dappify/model/Metadata';
 import Like from 'react-dappify/model/Like';
 import Status from 'react-dappify/model/Status';
 import Marketplace from 'react-dappify/model/Marketplace';
-import TokenContract from 'react-dappify/contracts/Token.sol/Token.json';
+import TokenContract from 'react-dappify/contracts/ERC721TokenV1.sol/ERC721TokenV1.json';
 
 export default class Nft {
 
@@ -116,6 +116,7 @@ export default class Nft {
 
         const env = currentProject.isTestEnvironment ? 'test' : 'main';
         const contractAddress = currentProject.config.template.marketplace[env].contract;
+        const chainId = currentProject.config.template.marketplace[env].chainId;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
 
@@ -124,10 +125,14 @@ export default class Nft {
         const getappr = await tokenContact.getApproved(this.tokenId);
         if (getappr !== contractAddress) {
             const txApprove = await tokenContact.approve(marketplace.marketplaceAddress, this.tokenId);
-            const approval = await txApprove.wait();
+            await txApprove.wait();
         }
 
-        const transaction = await marketplace.contract.placeOffering(this.collection.address, this.tokenId, ethers.utils.parseEther(JSON.stringify(price)));
+        const transaction = await marketplace.contract.placeOffering(   this.collection.address, 
+                                                                        this.tokenId, 
+                                                                        ethers.utils.parseEther(JSON.stringify(price)),
+                                                                        currentProject.config.operator
+                                                                    );
         const tx = await transaction.wait();
         const event = tx.events.filter((e) => e.event === "OfferingPlaced")[0].args;
 
@@ -144,7 +149,7 @@ export default class Nft {
         offer.set('status', "OfferingPlaced");
         offer.set('symbol', this.collection.symbol);
         offer.set('name', this.collection.name);
-        offer.set('chainId', currentProject.config.chain);
+        offer.set('chainId', chainId);
         offer.set('category', category.uri);
         offer.set('hash', tx.transactionHash);
         await offer.save();
@@ -154,15 +159,12 @@ export default class Nft {
     purchase = async() => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProfile, currentProject } = context;
-
 		const env = currentProject.isTestEnvironment ? 'test' : 'main';
         const contractAddress = currentProject.config.template.marketplace[env].contract;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
-
         let transaction = await marketplace.contract.closeOffering(this.offeringId, { value: ethers.utils.parseEther(JSON.stringify(this.price)) });
         const tx = await transaction.wait();
-        const event = tx.events.filter((e) => e.event === "OfferingClosed")[0].args;
         this.source.set("status", "OfferingClosed");
         this.source.set("buyer", currentProfile.source);
         this.source.set("hash", tx.transactionHash);
@@ -172,16 +174,14 @@ export default class Nft {
 
     editPricing = async(price) => {
         const context = await UserProfile.getCurrentUserContext();
-        const { currentProfile, currentProject } = context;
+        const { currentProject } = context;
 		const env = currentProject.isTestEnvironment ? 'test' : 'main';
         const contractAddress = currentProject.config.template.marketplace[env].contract;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
-
         const newPricing = ethers.utils.parseEther(JSON.stringify(price));
         const transaction = await marketplace.contract.updateOffering(this.offeringId, newPricing);
         const tx = await transaction.wait();
-        const event = tx.events.filter((e) => e.event === "OfferingUpdated")[0].args;
         this.source.set("price", price);
         await this.source.save();
         return tx.transactionHash;
@@ -189,15 +189,13 @@ export default class Nft {
 
     withdrawFromMarketplace = async() => {
         const context = await UserProfile.getCurrentUserContext();
-        const { currentProfile, currentProject } = context;
+        const { currentProject } = context;
 		const env = currentProject.isTestEnvironment ? 'test' : 'main';
         const contractAddress = currentProject.config.template.marketplace[env].contract;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
-
         let transaction = await marketplace.contract.withdrawOffering(this.offeringId);
         const tx = await transaction.wait();
-        const event = tx.events.filter((e) => e.event === "OfferingWithdrawn")[0].args;
         this.source.set("status", "OfferingWithdrawn");
         this.source.set("hash", tx.transactionHash);
         await this.source.save();
@@ -343,6 +341,7 @@ export default class Nft {
                 case 'UserProfile':
                     return new UserProfile(item);
                 default:
+                    return null;
             }
         });
         return itemList;

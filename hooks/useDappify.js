@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import { loadConfiguration  } from 'react-dappify/configuration';
 import defaultConfiguration from 'react-dappify/configuration/default.json';
 import Project from 'react-dappify/model/Project';
+import UserProfile from 'react-dappify/model/UserProfile';
 import { debounce } from 'react-dappify/utils/timer';
 
 const useDappify = ({template}) => {
@@ -13,11 +14,24 @@ const useDappify = ({template}) => {
     const [provider, setProvider] = useState();
     const [isRightNetwork, setRightNetwork] = useState();
     const [project, setProject] = useState();
- 
+    const Provider = Moralis;
+
+    const setupProvider = debounce(async () => {
+      const web3 = await Moralis.enableWeb3();
+      setProvider(web3);
+      return;
+    });
+
     useEffect(() => {
-        Moralis.onChainChanged(async () => setupProvider());
-        bootstrap();
-    }, []);
+      const bootstrap = async () => {
+        await setupProvider();
+        const currentProject = await Project.getInstance();
+        setProject(currentProject);
+        setConfiguration(currentProject.config);
+      };
+      Moralis.onChainChanged(async () => setupProvider());
+      bootstrap();
+    }, [Moralis]);
 
     useEffect(() => {
         loadConfiguration(configuration);
@@ -26,6 +40,12 @@ const useDappify = ({template}) => {
     useEffect(() => {
         if (!user) return;
         if (!provider) return;
+        const loadBalances = async () => {
+          if (!provider?.getBalance) return;
+          const balance = await provider.getBalance(user.get('ethAddress'));
+          const currBalance = parseFloat(ethers.utils.formatEther(balance)).toFixed(3);
+          setNativeBalance(currBalance);
+        }
         loadBalances();
     }, [user, provider]);
 
@@ -35,13 +55,7 @@ const useDappify = ({template}) => {
         const targetNetwork = project?.getNetworkContext(template)?.chainId;
         if (targetNetwork && provider.provider?.chainId)
           setRightNetwork(provider.provider.chainId === targetNetwork);
-    }, [provider, configuration]);
-
-    const setupProvider = debounce(async () => {
-        const web3 = await Moralis.enableWeb3();
-        setProvider(web3);
-        return;
-    });
+    }, [provider, configuration, project, template]);
 
     const verifyNetwork = async() => {
         if (!provider) return;
@@ -78,24 +92,10 @@ const useDappify = ({template}) => {
         await setupProvider();
         const user = await providerAuthenticate(params);
         verifyNetwork();
+        // Upsert user
+        await UserProfile.init(user);
         return user;
     }
-
-    const loadBalances = async () => {
-        if (!provider?.getBalance) return;
-        const balance = await provider.getBalance(user.get('ethAddress'));
-        const currBalance = parseFloat(ethers.utils.formatEther(balance)).toFixed(3);
-        setNativeBalance(currBalance);
-    }
- 
-    const bootstrap = async () => {
-        await setupProvider();
-        const currentProject = await Project.getInstance();
-        setProject(currentProject);
-        setConfiguration(currentProject.config);
-    };
-
-    const Provider = Moralis;
 
     return { 
         configuration, 

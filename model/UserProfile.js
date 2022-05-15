@@ -87,6 +87,27 @@ export default class UserProfile {
         return this;
     }
 
+    static init = async(user) => {
+        const currentProject = await Project.getInstance();
+
+        const UserProfile = Moralis.Object.extend("UserProfile");
+        const query = new Moralis.Query(UserProfile);
+        query.equalTo("project", currentProject.source);
+        query.equalTo("user", user);
+        let profile = await query.first();
+        if (!profile) {
+            const Profile = Moralis.Object.extend('UserProfile');
+            profile = new Profile();
+            profile.set("project", currentProject.source);
+            profile.set("user", user);
+            profile.set("wallet", user.get("ethAddress"));
+            await profile.save();
+        } else {
+            return profile;
+        }
+
+    }
+
     static getCurrentUser = async() => {
         const context = await UserProfile.getCurrentUserContext();
         return context.currentProfile;

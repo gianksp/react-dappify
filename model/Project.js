@@ -118,14 +118,11 @@ export default class Project {
     static publishChanges = async(appConfiguration, user) => {
         const project = await Project.findWithId(appConfiguration.appId, user);
         project.set('config', appConfiguration);
-        console.log(project);
         return await project.save();
     }
 
     static destroy = async(appConfiguration, user) => {
-        console.log(appConfiguration);
         const project = await Project.findWithId(appConfiguration.appId, user);
-        console.log(project);
         return await project.destroy();
     }
 
