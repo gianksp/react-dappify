@@ -135,7 +135,7 @@ export default class Nft {
                                                                     );
         const tx = await transaction.wait();
         const event = tx.events.filter((e) => e.event === "OfferingPlaced")[0].args;
-
+        const tokenURI = await tokenContact.tokenURI(this.tokenId);
         const NFTOffer = Moralis.Object.extend('NFTOffer');
         const offer = new NFTOffer();
         offer.set('project', currentProject.source);
@@ -144,7 +144,7 @@ export default class Nft {
         offer.set('price', price);
         offer.set('contract', this.collection.address);
         offer.set('tokenId', this.tokenId);
-        offer.set('uri', event.uri);
+        offer.set('uri', tokenURI);
         offer.set('metadata', this.metadata.source);
         offer.set('status', "OfferingPlaced");
         offer.set('symbol', this.collection.symbol);
