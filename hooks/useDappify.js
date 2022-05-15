@@ -16,9 +16,13 @@ const useDappify = ({template}) => {
     const [project, setProject] = useState();
     const Provider = Moralis;
 
-    const setupProvider = debounce(async () => {
-      const web3 = await Moralis.enableWeb3();
-      setProvider(web3);
+    const setupProvider = debounce(async (params) => {
+      try {
+        const web3 = await Moralis.enableWeb3(params);
+        setProvider(web3);
+      } catch (e) {
+        console.log(e);
+      }
       return;
     });
 
@@ -89,12 +93,17 @@ const useDappify = ({template}) => {
     }
 
     const authenticate = async(params) => {
-        await setupProvider();
-        const user = await providerAuthenticate(params);
+      let user;
+      try {
+        user = await providerAuthenticate(params);
+        await setupProvider(params);
         verifyNetwork();
         // Upsert user
         await UserProfile.init(user);
-        return user;
+      } catch (e) {
+        console.log(e);
+      }
+      return user;
     }
 
     return { 
