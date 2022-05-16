@@ -24,14 +24,4 @@ export default class Marketplace {
 		this.signer = signer;
         return this;
     }
-
-	static withdrawBalance = async() => {
-		const context = await UserProfile.getCurrentUserContext();
-        const { currentProject } = context;
-		const env = currentProject.isTestEnvironment ? 'test' : 'main';
-        const contractAddress = currentProject.config.template.marketplace[env].contract;
-		let marketplace = new Marketplace(contractAddress);
-        marketplace = await marketplace.init();
-        await marketplace.contract.withdrawBalance();
-	}
 }

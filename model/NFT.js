@@ -304,6 +304,7 @@ export default class Nft {
         const { currentProject } = context;
         const env = currentProject.isTestEnvironment ? 'test' : 'main';
         const chainId = currentProject.config.template.marketplace[env].chainId;
+        if (!userProfile.wallet) return [];
         const items = await Moralis.Cloud.run('getNftsForAddress', { address: userProfile.wallet, chainId:chainId });
         const resolvedItems = items?.data?.result;
         const ownedItems = resolvedItems.map((nft) => new Nft(nft));

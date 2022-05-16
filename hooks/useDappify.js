@@ -27,16 +27,21 @@ const useDappify = ({template}) => {
     });
 
     useEffect(() => {
+      const bootstrapProject = async () => {
+        const currentProject = await Project.getInstance();
+        setProject(currentProject);
+        setConfiguration(currentProject.config);
+      };
+
+      const bootstapUser = async () => {
+        await setupProvider();
+      };
+
       if (isAuthenticated) {
-        const bootstrap = async () => {
-          await setupProvider();
-          const currentProject = await Project.getInstance();
-          setProject(currentProject);
-          setConfiguration(currentProject.config);
-        };
         Moralis.onChainChanged(async () => setupProvider());
-        bootstrap();
+        bootstapUser();
       }
+      bootstrapProject();
     }, [Moralis, isAuthenticated]);
 
     useEffect(() => {
@@ -95,17 +100,18 @@ const useDappify = ({template}) => {
     }
 
     const authenticate = async(params) => {
-      let currentProfile;
+      let providerUser;
       try {
-        currentProfile = await providerAuthenticate(params);
+        providerUser = await providerAuthenticate(params);
         await setupProvider(params);
         verifyNetwork();
         // Upsert user
-        await UserProfile.init(currentProfile);
+        if (providerUser)
+          await UserProfile.init(providerUser);
       } catch (e) {
         console.log(e);
       }
-      return currentProfile;
+      return providerUser;
     }
 
     return { 
