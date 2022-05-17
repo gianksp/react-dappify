@@ -17,6 +17,8 @@ export default class UserProfile {
     facebook;
     wallet;
     totalSales;
+    createdAt;
+    updatedAt;
 
     source;
 
@@ -31,7 +33,7 @@ export default class UserProfile {
         this.bio = user.get('bio');
         this.image = getImage(user.get('image'));
         this.banner = getImage(user.get('banner'));
-        this.verified = user.get('verified');
+        this.verified = user.get('verified') || false;
         this.email = user.get('email');
         this.website = user.get('website');
         this.twitter = user.get('twitter');
@@ -39,6 +41,8 @@ export default class UserProfile {
         this.facebook = user.get('facebook');
         this.wallet = user.get('wallet') || user.get('ethAddress');
         this.totalSales = user.get('totalSales') || 0;
+        this.createdAt = user.get('createdAt');
+        this.updatedAt = user.get('updatedAt');
         this.source = user;
         return this;
     }
@@ -87,9 +91,14 @@ export default class UserProfile {
         return this;
     }
 
+    setVerified = async(isVerified) => {
+        this.source.set('verified', isVerified);
+        await this.source.save();
+        return this;
+    }
+
     static init = async(user) => {
         const currentProject = await Project.getInstance();
-
         const UserProfile = Moralis.Object.extend("UserProfile");
         const query = new Moralis.Query(UserProfile);
         query.equalTo("project", currentProject.source);
@@ -146,5 +155,23 @@ export default class UserProfile {
         query.includeAll();
         const user = await query.first();
         return user ? new UserProfile(user) : null;
+    }
+
+    static listUsersByProject = async({ projectId, page = 0, limit = 20 }) => {
+        const projects = new Moralis.Query('Project');
+        projects.equalTo('objectId', projectId);
+        const project = await projects.first();
+        const query = new Moralis.Query('UserProfile');
+        query.equalTo('project', project);
+        query.descending('totalSales');
+        query.limit(limit);
+        query.skip(page*limit);
+        query.withCount();
+        const response = await query.find() || {};
+        const users = response.results.map((user) => new UserProfile(user));
+        return {
+            results: users,
+            count: response.count
+        }
     }
 }
