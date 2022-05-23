@@ -1,33 +1,34 @@
 
 import CoinbaseConnector from 'react-dappify/connectors/CoinbaseConnector';
 
-const baseUrl = 'https://gateway.pinata.cloud/ipfs/QmYBFBPQKnGAoMk58DFnaXqpuHkeWBiWUFTGCTK94LZ1tV';
-
 export const supportedWallets = [
     { 
         id: 'metamask', 
         payload: { 
             provider: 'metamask' 
         },  
-        image: `${baseUrl}/1.png`, 
+        image: 'wallet/1.png', 
         tag: 'Most popular', 
-        name: 'Metamask'
+        name: 'Metamask',
+        description: 'Start exploring blockchain applications in seconds.  Trusted by over 1 million users worldwide.'
     },
     { 
         id: 'coinbase', 
         payload: { 
             connector: CoinbaseConnector 
         }, 
-        image: `${baseUrl}/5.png`, 
-        name: 'Coinbase'
+        image: 'wallet/5.png', 
+        name: 'Coinbase',
+        description: 'The easiest and most secure crypto wallet. No Coinbase account required.'
     },
     { 
         id: 'walletconnect', 
         payload: { 
             provider: 'walletconnect' 
         }, 
-        image: `${baseUrl}/4.png`, 
-        name: 'WalletConnect'
+        image: 'wallet/4.png', 
+        name: 'WalletConnect',
+        description: 'Open source protocol for connecting decentralised applications to mobile wallets.'
     }
     // { id: 'torus', image: `${baseUrl}/8.png`, tag: 'Most Simple', name: 'Torus', description: 'Open source protocol for connecting decentralised applications to mobile wallets.' },
     // { id: 'bitski', image: `${baseUrl}/9.png`, name: 'Bitski', description: 'Bitski connects communities, creators and brands through unique, ownable digital content.' },

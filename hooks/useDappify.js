@@ -118,6 +118,13 @@ const useDappify = ({template}) => {
       return providerUser;
     }
 
+    const getProviderInstance = async() => {
+      const pref = getProviderPreference();
+      const web3 = await Moralis.enableWeb3(pref);
+      setProvider(web3);
+      return web3;
+    }
+
     return { 
         configuration, 
         authenticate, 
@@ -131,7 +138,8 @@ const useDappify = ({template}) => {
         project,
         template,
         provider,
-        switchToChain
+        switchToChain,
+        getProviderInstance
     };
 };
 
