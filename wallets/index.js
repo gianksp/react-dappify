@@ -1,13 +1,15 @@
 
 import CoinbaseConnector from 'react-dappify/connectors/CoinbaseConnector';
 
+const baseUrl = `https://s3.amazonaws.com/dappify.assets/wallet`;
+
 export const supportedWallets = [
     { 
         id: 'metamask', 
         payload: { 
             provider: 'metamask' 
         },  
-        image: 'wallet/1.png', 
+        image: `${baseUrl}/1.png`, 
         tag: 'Most popular', 
         name: 'Metamask',
         description: 'Start exploring blockchain applications in seconds.  Trusted by over 1 million users worldwide.'
@@ -17,7 +19,7 @@ export const supportedWallets = [
         payload: { 
             connector: CoinbaseConnector 
         }, 
-        image: 'wallet/5.png', 
+        image: `${baseUrl}/5.png`, 
         name: 'Coinbase',
         description: 'The easiest and most secure crypto wallet. No Coinbase account required.'
     },
@@ -26,7 +28,7 @@ export const supportedWallets = [
         payload: { 
             provider: 'walletconnect' 
         }, 
-        image: 'wallet/4.png', 
+        image: `${baseUrl}/4.png`, 
         name: 'WalletConnect',
         description: 'Open source protocol for connecting decentralised applications to mobile wallets.'
     }
