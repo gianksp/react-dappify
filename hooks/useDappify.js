@@ -6,6 +6,7 @@ import defaultConfiguration from 'react-dappify/configuration/default.json';
 import Project from 'react-dappify/model/Project';
 import UserProfile from 'react-dappify/model/UserProfile';
 import { debounce } from 'react-dappify/utils/timer';
+import { getProviderPreference, setProviderPreference } from 'react-dappify/utils/localStorage';
 
 const useDappify = ({template}) => {
     const { authenticate: providerAuthenticate, logout, user, isAuthenticated, Moralis } = useMoralis();
@@ -102,8 +103,11 @@ const useDappify = ({template}) => {
     const authenticate = async(params) => {
       let providerUser;
       try {
-        providerUser = await providerAuthenticate(params);
-        await setupProvider(params);
+        setProviderPreference(params);
+        const pref = getProviderPreference();
+        pref.signingMessage = configuration.name;
+        providerUser = await providerAuthenticate(pref);
+        await setupProvider(pref);
         verifyNetwork();
         // Upsert user
         if (providerUser)

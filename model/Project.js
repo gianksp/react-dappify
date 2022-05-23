@@ -2,6 +2,7 @@ import { parse } from 'tldts';
 import Moralis from 'moralis';
 import UserProfile from 'react-dappify/model/UserProfile';
 import constants from 'react-dappify/constants';
+import { getPreference, setPreference } from 'react-dappify/utils/localStorage';
 
 export default class Project {
 
@@ -31,8 +32,18 @@ export default class Project {
         project.id = projectObject.objectId;
         project.isTestEnvironment = isDappifySubdomain && domainName.subdomain.startsWith('test.');
         project.set('config', projectObject.config);
+        Project.setNetworkPreferencesInLocalStorage(projectObject.config);
         const loadedProject = new Project(project);
         return loadedProject;
+    }
+
+    static setNetworkPreferencesInLocalStorage = (config) => {
+        const chainId = config.template.marketplace.main.chainId;
+        const params = {
+            chainId,
+            code: constants.SPEEDY_NODE[chainId]
+        }
+        setPreference(constants.PREFERENCES.CHAIN, params);
     }
 
     constructor(project) {
@@ -60,16 +71,16 @@ export default class Project {
     }
 
     static getCached = async(searchKey, searchValue) => {
-        let cachedStr = localStorage.getItem(searchKey);
+        let cachedStr = getPreference(searchKey);
         // if (!cachedStr) {
         //     //Add to cache
             const project = await Project.loadFromProvider(searchKey, searchValue);
-            localStorage.setItem(searchKey, JSON.stringify(project));
-            cachedStr = localStorage.getItem(searchKey);
+            setPreference(searchKey, project);
+            cachedStr = getPreference(searchKey);
         // } else {
         //     // console.log(`Project configuration from cached key ${searchKey}`);
         // }
-        return JSON.parse(cachedStr)
+        return cachedStr;
     }
 
     static loadFromProvider = async(searchKey, searchValue) => {

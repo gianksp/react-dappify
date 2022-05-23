@@ -100,7 +100,9 @@
           "Owner not verified": "This owner is not verified. Purchase this item at your own risk",
           "Owner verified": "This owner is verified",
           "Transaction successful": "Your transaction was successful!",
-          "Please do not close this window": "Please don't close this window until we have confirmed your transaction! we will let you know shortly"
+          "Please do not close this window": "Please don't close this window until we have confirmed your transaction! we will let you know shortly",
+          "WalletConnect": "Open source protocol for connecting decentralised applications to mobile wallets.",
+          "Coinbase": "The easiest and most secure crypto wallet. No Coinbase account required."
         }
       }
     },

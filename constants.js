@@ -138,6 +138,24 @@ const constants = {
         "0x89": null, 
         "0x1": null
       }
+    },
+    PREFERENCES: {
+      PROVIDER: 'dappifyWalletProvider',
+      CHAIN: 'dappifyChain',
+      SUBDOMAIN: 'subdomain',
+      NETWORK: {
+        chainId: null
+      }
+    },
+    SPEEDY_NODE: {
+      "0x61": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/bsc/testnet`,
+      "0xa869": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/avalanche/testnet`,
+      "0x13881": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/polygon/mumbai`,
+      "0x5": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/eth/goerli`,
+      "0xa86a": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/avalanche/mainnet`, 
+      "0x38": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/bsc/mainnet`,
+      "0x89": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/polygon/mainnet`,
+      "0x1": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/eth/mainnet`
     }
 };
 

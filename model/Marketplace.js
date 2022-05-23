@@ -1,7 +1,7 @@
 import Moralis from 'moralis';
 import { ethers } from 'ethers';
 import MarketplaceContract from 'react-dappify/contracts/ERC721MarketplaceV1.sol/ERC721MarketplaceV1.json';
-import UserProfile from 'react-dappify/model/UserProfile';
+import { getProviderPreference } from 'react-dappify/utils/localStorage';
 
 export default class Marketplace {
 
@@ -18,7 +18,8 @@ export default class Marketplace {
 			appId:process.env.REACT_APP_MORALIS_APP_ID, 
 			serverUrl:process.env.REACT_APP_MORALIS_SERVER_URL 
 		});
-        const web3Provider = await Moralis.enableWeb3();
+        const pref = getProviderPreference();
+        const web3Provider = await Moralis.enableWeb3(pref);
         const signer = web3Provider.getSigner();
         this.contract = new ethers.Contract(this.marketplaceAddress, MarketplaceContract.abi, signer);
 		this.signer = signer;
