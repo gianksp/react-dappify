@@ -128,11 +128,21 @@ const constants = {
       "0x5": "https://goerlifaucet.com/"
     },
     CONTRACTS: {
-      ERC721MarketplaceV1: {
+      marketplace: {
         "0x61": "0x275E6A2aD3598189a2897F5b6af2F54E7cb623eF",
         "0xa869": "0xA05a64Af69AfA088fcd3D0D2f18147B4F21dDb09",
         "0x13881": "0xA05a64Af69AfA088fcd3D0D2f18147B4F21dDb09",
         "0x5": "0xA05a64Af69AfA088fcd3D0D2f18147B4F21dDb09",
+        "0xa86a": null, 
+        "0x38": null,
+        "0x89": null, 
+        "0x1": null
+      },
+      tokenizer: {
+        "0x61": null,
+        "0xa869": null,
+        "0x13881": null,
+        "0x5": "0xD193ee256bC69701B5f55c22C4Af58f8e5A84222",
         "0xa86a": null, 
         "0x38": null,
         "0x89": null, 

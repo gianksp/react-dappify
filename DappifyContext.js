@@ -4,8 +4,8 @@ import useDappify from 'react-dappify/hooks/useDappify';
 
 export const DappifyContext = createContext(null);
 
-export const DappifyProvider = ({ children, template='marketplace' }) => (
-    <DappifyContext.Provider value={{ ...useDappify({template}) }}>
+export const DappifyProvider = ({ children }) => (
+    <DappifyContext.Provider value={{ ...useDappify() }}>
         {children}
     </DappifyContext.Provider>
 );

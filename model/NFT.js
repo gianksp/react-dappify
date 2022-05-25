@@ -114,9 +114,8 @@ export default class Nft {
             throw new Error(`This item is already in the marketplace`);
         }
 
-        const env = currentProject.isTestEnvironment ? 'test' : 'main';
-        const contractAddress = currentProject.config.template.marketplace[env].contract;
-        const chainId = currentProject.config.template.marketplace[env].chainId;
+        const contractAddress = currentProject.config.template.contract;
+        const chainId = currentProject.config.template.chainId;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
 
@@ -159,8 +158,7 @@ export default class Nft {
     purchase = async() => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProfile, currentProject } = context;
-		const env = currentProject.isTestEnvironment ? 'test' : 'main';
-        const contractAddress = currentProject.config.template.marketplace[env].contract;
+        const contractAddress = currentProject.config.template.contract;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
         let transaction = await marketplace.contract.closeOffering(this.offeringId, { value: ethers.utils.parseEther(JSON.stringify(this.price)) });
@@ -175,8 +173,7 @@ export default class Nft {
     editPricing = async(price) => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProject } = context;
-		const env = currentProject.isTestEnvironment ? 'test' : 'main';
-        const contractAddress = currentProject.config.template.marketplace[env].contract;
+        const contractAddress = currentProject.config.template.contract;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
         const newPricing = ethers.utils.parseEther(JSON.stringify(price));
@@ -190,8 +187,7 @@ export default class Nft {
     withdrawFromMarketplace = async() => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProject } = context;
-		const env = currentProject.isTestEnvironment ? 'test' : 'main';
-        const contractAddress = currentProject.config.template.marketplace[env].contract;
+        const contractAddress = currentProject.config.template.contract;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
         let transaction = await marketplace.contract.withdrawOffering(this.offeringId);
@@ -302,8 +298,7 @@ export default class Nft {
     static getFromUser = async(userProfile) => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProject } = context;
-        const env = currentProject.isTestEnvironment ? 'test' : 'main';
-        const chainId = currentProject.config.template.marketplace[env].chainId;
+        const chainId = currentProject.config.template.chainId;
         if (!userProfile.wallet) return [];
         const items = await Moralis.Cloud.run('getNftsForAddress', { address: userProfile.wallet, chainId:chainId });
         const resolvedItems = items?.data?.result;

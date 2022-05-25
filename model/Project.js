@@ -38,7 +38,7 @@ export default class Project {
     }
 
     static setNetworkPreferencesInLocalStorage = (config) => {
-        const chainId = config.template.marketplace.main.chainId;
+        const chainId = config.template.chainId;
         const params = {
             chainId,
             code: constants.SPEEDY_NODE[chainId]

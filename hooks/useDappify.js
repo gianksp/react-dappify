@@ -8,7 +8,7 @@ import UserProfile from 'react-dappify/model/UserProfile';
 import { debounce } from 'react-dappify/utils/timer';
 import { getProviderPreference, setProviderPreference } from 'react-dappify/utils/localStorage';
 
-const useDappify = ({template}) => {
+const useDappify = () => {
     const { authenticate: providerAuthenticate, logout, user, isAuthenticated, Moralis } = useMoralis();
     const [configuration, setConfiguration] = useState(defaultConfiguration);
     const [nativeBalance, setNativeBalance] = useState();
@@ -64,16 +64,16 @@ const useDappify = ({template}) => {
     useEffect(() => {
         if (!configuration) return;
         if (!provider) return;
-        const targetNetwork = project?.getNetworkContext(template)?.chainId;
+        const targetNetwork = configuration.template.chainId;
         if (targetNetwork && provider.provider?.chainId)
           setRightNetwork(provider.provider.chainId === targetNetwork);
-    }, [provider, configuration, project, template]);
+    }, [provider, configuration]);
 
     const verifyNetwork = async() => {
         if (!provider) return;
         if (!isAuthenticated) return;
         if (isRightNetwork) return;
-        const network = project?.getNetworkContext(template);
+        const network = configuration.template;
         await switchToChain(network, provider.provider);
     }
 
@@ -105,7 +105,7 @@ const useDappify = ({template}) => {
       try {
         setProviderPreference(params);
         const pref = getProviderPreference();
-        pref.signingMessage = configuration.name;
+        pref.signingMessage = configuration?.name || 'Dappify';
         providerUser = await providerAuthenticate(pref);
         await setupProvider(pref);
         verifyNetwork();
@@ -136,7 +136,6 @@ const useDappify = ({template}) => {
         verifyNetwork,
         isRightNetwork,
         project,
-        template,
         provider,
         switchToChain,
         getProviderInstance
