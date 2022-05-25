@@ -60,16 +60,6 @@ export default class Project {
         return this;
     }
 
-    getNetworkForTemplate = (template) => {
-        const env = this.isTestEnvironment ? 'test' : 'main';
-        return this.config.template[template][env];
-    }
-
-    getNetworkContext = (template) => {
-        const network = this.getNetworkForTemplate(template);
-        return constants.NETWORKS[network.chainId];
-    }
-
     static getCached = async(searchKey, searchValue) => {
         let cachedStr = getPreference(searchKey);
         // if (!cachedStr) {
