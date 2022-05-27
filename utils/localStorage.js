@@ -1,5 +1,6 @@
 import constants from 'react-dappify/constants';
 import CoinbaseConnector from 'react-dappify/connectors/CoinbaseConnector';
+import isEmpty from 'lodash/isEmpty';
 
 export const getProviderPreference = () => {
     const authParams = getPreference(constants.PREFERENCES.PROVIDER);
@@ -20,14 +21,15 @@ export const setProviderPreference = (authParams = {}) => {
 }
 
 export const setPreference = (key, value) => {
+    if (isEmpty(key)) return;
     localStorage.setItem(key, JSON.stringify(value));
     return getPreference(key);
 }
 
 export const getPreference = (key) => {
-    if (!key) return null;
+    if (isEmpty(key)) return null;
     const localItem = localStorage.getItem(key);
-    if (!localItem) return null;
+    if (isEmpty(localItem)) return null;
     let value;
     try {
         value = JSON.parse(localItem);

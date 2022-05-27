@@ -12,8 +12,8 @@ class WalletLinkConnector extends Moralis?.AbstractWeb3Connector {
   chainId;
   provider;
   walletLink = new WalletLink({
-    appName: getPreference(constants.PREFERENCES.SUBDOMAIN)?.config?.name,
-    appLogoUrl: getPreference(constants.PREFERENCES.SUBDOMAIN)?.config?.icon,
+    appName: getPreference(constants.PREFERENCES.SUBDOMAIN).config?.name,
+    appLogoUrl: getPreference(constants.PREFERENCES.SUBDOMAIN).config?.icon,
     darkMode: false,
   });
 
@@ -23,15 +23,19 @@ class WalletLinkConnector extends Moralis?.AbstractWeb3Connector {
    * It should also return the account and chainId, if possible
    */
   async activate() {
-    const networkPreferences = getPreference(constants.PREFERENCES.CHAIN);
-    const ethereum = this.walletLink.makeWeb3Provider(constants.SPEEDY_NODE[networkPreferences.chainId], 1);
+    console.log("????");
+    const appConfiguration = getPreference(constants.PREFERENCES.SUBDOMAIN).config;
+    console.log(appConfiguration);
+    const chainId = appConfiguration.template.chainId;
+    console.log(appConfiguration);
+    const ethereum = this.walletLink.makeWeb3Provider(constants.SPEEDY_NODE[chainId], 1);
 
     // Store the EIP-1193 provider, account and chainId
     await ethereum.enable();
     const web3 = new Web3(ethereum);
     const accounts = await web3.eth.getAccounts();
     this.account = accounts[0];
-    this.chainId = networkPreferences.chainId; // Should be in hex format
+    this.chainId = chainId; // Should be in hex format
     this.provider = ethereum;
 
     // Call the subscribeToEvents from AbstractWeb3Connector to handle events like accountsChange and chainChange

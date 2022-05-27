@@ -5,7 +5,6 @@ import { loadConfiguration  } from 'react-dappify/configuration';
 import defaultConfiguration from 'react-dappify/configuration/default.json';
 import Project from 'react-dappify/model/Project';
 import UserProfile from 'react-dappify/model/UserProfile';
-import { debounce } from 'react-dappify/utils/timer';
 import { getProviderPreference, setProviderPreference } from 'react-dappify/utils/localStorage';
 
 const useDappify = () => {
@@ -17,16 +16,6 @@ const useDappify = () => {
     const [project, setProject] = useState();
     const Provider = Moralis;
 
-    const setupProvider = debounce(async (params) => {
-      try {
-        const web3 = await Moralis.enableWeb3(params);
-        setProvider(web3);
-      } catch (e) {
-        console.log(e);
-      }
-      return;
-    });
-
     useEffect(() => {
       const bootstrapProject = async () => {
         const currentProject = await Project.getInstance();
@@ -34,14 +23,6 @@ const useDappify = () => {
         setConfiguration(currentProject.config);
       };
 
-      const bootstapUser = async () => {
-        await setupProvider();
-      };
-
-      if (isAuthenticated) {
-        Moralis.onChainChanged(async () => setupProvider());
-        bootstapUser();
-      }
       bootstrapProject();
     }, [Moralis, isAuthenticated]);
 
@@ -107,9 +88,6 @@ const useDappify = () => {
         const pref = getProviderPreference();
         pref.signingMessage = configuration?.name || 'Dappify';
         providerUser = await providerAuthenticate(pref);
-        await setupProvider(pref);
-        verifyNetwork();
-        // Upsert user
         if (providerUser)
           await UserProfile.init(providerUser);
       } catch (e) {
@@ -119,9 +97,15 @@ const useDappify = () => {
     }
 
     const getProviderInstance = async() => {
-      const pref = getProviderPreference();
-      const web3 = await Moralis.enableWeb3(pref);
-      setProvider(web3);
+      let web3;
+      try {
+        const pref = getProviderPreference();
+        pref.signingMessage = configuration?.name || 'Dappify';
+        web3 = await Moralis.enableWeb3(pref);
+        setProvider(web3);
+      } catch(e) {
+        console.log(e);
+      }
       return web3;
     }
 
