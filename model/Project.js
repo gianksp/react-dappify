@@ -3,6 +3,8 @@ import Moralis from 'moralis';
 import UserProfile from 'react-dappify/model/UserProfile';
 import { getPreference, setPreference } from 'react-dappify/utils/localStorage';
 import isEmpty from 'lodash/isEmpty';
+import { Logger } from 'react-dappify/utils/log';
+import moment from 'moment';
 
 export default class Project {
 
@@ -12,7 +14,6 @@ export default class Project {
     id;
     config;
     source;
-    isTestEnvironment;
     createdAt;
     updatedAt;
 
@@ -25,31 +26,28 @@ export default class Project {
         const domainName = parse(window.location.hostname);
         const isDappifySubdomain = domainName.domainWithoutSuffix.toLocaleLowerCase() === Project.PLATFORM_DOMAIN;
         const searchKey = isDappifySubdomain ? 'subdomain' : 'domain';
-        const searchValue = isDappifySubdomain ? domainName.subdomain : domainName.hostname;
+        const searchValue = isDappifySubdomain ? domainName.subdomain ? domainName.subdomain : 'studio' : domainName.hostname;
         const projectObject = await Project.getCached(searchKey, searchValue);
         const ProjectObj = Moralis.Object.extend('Project');
-        const project = new ProjectObj();
-        if (isEmpty(projectObject)) {
-            alert("This subdomain is not a dApp");
-            return;
+        const providerProject = new ProjectObj();
+
+        if (isEmpty(projectObject?.objectId)) {
+            Logger.debug(`Not found project`);
+            return new Project();
         }
-        project.id = projectObject.objectId;
-        project.isTestEnvironment = false;
-        project.set('config', projectObject.config);
-        const loadedProject = new Project(project);
-        return loadedProject;
+
+        providerProject.id = projectObject.objectId;
+        providerProject.isTestEnvironment = false;
+        providerProject.set('config', projectObject.config);
+        const loadedProject = new Project(providerProject);
+        return new Project(loadedProject);
     }
 
-    constructor(project) {
-        return this.#fromProvider(project);
-    }
-
-    #fromProvider = (project) => {
-        this.id = project.id;
-        this.isTestEnvironment = project.isTestEnvironment;
-        this.config = project.get('config');
-        this.createdAt = project.get('createdAt');
-        this.updatedAt = project.get('updatedAt');
+    constructor(project = {}) {
+        this.id = project?.id;
+        this.config = project?.attributes?.config || {};
+        this.createdAt = project?.attributes?.createdAt || moment();
+        this.updatedAt = project?.attributes?.updatedAt || moment();
         this.source = project;
         return this;
     }
@@ -69,6 +67,7 @@ export default class Project {
     static loadFromProvider = async(searchKey, searchValue) => {
         Moralis.start({ appId:process.env.REACT_APP_MORALIS_APP_ID, serverUrl:process.env.REACT_APP_MORALIS_SERVER_URL });
         const query = new Moralis.Query('Project');
+        Logger.debug(`Loading project from provider with searchKey ${searchKey} and value ${searchValue}`);
         query.equalTo(searchKey, searchValue);
         const result = await query.first();
         return result;

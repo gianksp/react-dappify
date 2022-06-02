@@ -115,7 +115,7 @@ export default class Nft {
         }
 
         const contractAddress = currentProject.config.template.contract;
-        const chainId = currentProject.config.template.chainId;
+        const chainId = currentProject.config.chainId;
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
 
@@ -298,7 +298,7 @@ export default class Nft {
     static getFromUser = async(userProfile) => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProject } = context;
-        const chainId = currentProject.config.template.chainId;
+        const chainId = currentProject.config.chainId;
         if (!userProfile.wallet) return [];
         const items = await Moralis.Cloud.run('getNftsForAddress', { address: userProfile.wallet, chainId:chainId });
         const resolvedItems = items?.data?.result;

@@ -6,6 +6,7 @@ import defaultConfiguration from 'react-dappify/configuration/default.json';
 import Project from 'react-dappify/model/Project';
 import UserProfile from 'react-dappify/model/UserProfile';
 import { getProviderPreference, setProviderPreference } from 'react-dappify/utils/localStorage';
+import { Logger } from 'react-dappify/utils/log';
 
 const useDappify = () => {
     const { authenticate: providerAuthenticate, logout, user, isAuthenticated, Moralis } = useMoralis();
@@ -45,7 +46,7 @@ const useDappify = () => {
     useEffect(() => {
         if (!configuration) return;
         if (!provider) return;
-        const targetNetwork = configuration.template.chainId;
+        const targetNetwork = configuration.chainId;
         if (targetNetwork && provider.provider?.chainId)
           setRightNetwork(provider.provider.chainId === targetNetwork);
     }, [provider, configuration]);
@@ -54,8 +55,7 @@ const useDappify = () => {
         if (!provider) return;
         if (!isAuthenticated) return;
         if (isRightNetwork) return;
-        const network = configuration.template;
-        await switchToChain(network, provider.provider);
+        await switchToChain(configuration, provider.provider);
     }
 
     const switchToChain = async(network, currentProvider) => {
@@ -85,13 +85,16 @@ const useDappify = () => {
       let providerUser;
       try {
         setProviderPreference(params);
-        const pref = getProviderPreference();
-        pref.signingMessage = configuration?.name || 'Dappify';
+        const pref = await getProviderPreference();
+        Logger.debug(`Authentication method`);
+        Logger.debug(pref);
+        const principal = configuration?.name || 'Dappify';
+        pref.signingMessage = `${principal} wants to connect!`;
         providerUser = await providerAuthenticate(pref);
         if (providerUser)
           await UserProfile.init(providerUser);
       } catch (e) {
-        console.log(e);
+        Logger.error(e);
       }
       return providerUser;
     }
@@ -100,11 +103,12 @@ const useDappify = () => {
       let web3;
       try {
         const pref = getProviderPreference();
-        pref.signingMessage = configuration?.name || 'Dappify';
+        const principal = configuration?.name || 'Dappify';
+        pref.signingMessage = `${principal} wants to connect!`;
         web3 = await Moralis.enableWeb3(pref);
         setProvider(web3);
       } catch(e) {
-        console.log(e);
+        Logger.error(e);
       }
       return web3;
     }
