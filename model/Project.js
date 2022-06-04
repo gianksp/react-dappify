@@ -39,8 +39,7 @@ export default class Project {
         providerProject.id = projectObject.objectId;
         providerProject.isTestEnvironment = false;
         providerProject.set('config', projectObject.config);
-        const loadedProject = new Project(providerProject);
-        return new Project(loadedProject);
+        return new Project(providerProject);
     }
 
     constructor(project = {}) {

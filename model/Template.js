@@ -1,4 +1,7 @@
 import Moralis from 'moralis';
+import isEmpty from 'lodash/isEmpty';
+import { getPreference } from 'react-dappify/utils/localStorage';
+import constants from 'react-dappify/constants';
 
 export default class Template {
 
@@ -22,5 +25,11 @@ export default class Template {
         const response = await query.find() || {};
         const templates = response.map((tmp) => new Template(tmp));
         return templates;
+    }
+
+    static current = () => {
+        const template = process.env.REACT_APP_TEMPLATE_NAME;
+        const configuration = getPreference(constants.PREFERENCES.SUBDOMAIN)?.config;
+        return !isEmpty(configuration?.template) ? configuration.template[template] : {}
     }
 }
