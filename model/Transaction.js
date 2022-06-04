@@ -45,6 +45,7 @@ export default class Transaction {
             this.event = tx.get('tokenId');
             this.category = tx.get('category');
             this.transactionHash = tx.get('transactionHash');
+            this.status = tx.get('status');
             this.createdAt = moment(tx.get('createdAt'));
             this.updatedAt = moment(tx.get('updatedAt'));
             this.source = tx;
