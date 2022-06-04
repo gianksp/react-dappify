@@ -54,7 +54,7 @@ export default class Nft {
         this.price = nft.get('amount') || 0;
         this.createdAt = nft.get('createdAt');
         this.updatedAt = nft.get('updatedAt');
-        this.offeringId = nft.get('offeringId');
+        this.offeringId = nft.get('uid');
         this.hash = nft.get('transactionHash');
         this.source = nft;
         return this;
@@ -172,6 +172,11 @@ export default class Nft {
         this.source.set('to', currentProfile.source);
         this.source.set('transactionHash', tx.transactionHash);
         await this.source.save();
+
+        // Update seller
+        this.owner.totalSales += this.price;
+        await this.owner.save({});
+
         return tx.transactionHash;
     }
 
@@ -324,14 +329,12 @@ export default class Nft {
         const resolvedItems = items?.data?.result;
         const ownedItems = resolvedItems.map((nft) => new Nft(nft));
 
-        // const ownerOfQuery = new Moralis.Query('NFTOffer');
-        // ownerOfQuery.equalTo('offerer', userProfile.source);
-        // ownerOfQuery.includeAll();
-        // ownerOfQuery.includeAll();
-        // const nfts = await ownerOfQuery.find() || [];
-        // const nftsList = nfts.map((nft) => new Nft(nft));
-        // return [...nftsList,...ownedItems];
-        return ownedItems;
+        const ownerOfQuery = new Moralis.Query('Transaction');
+        ownerOfQuery.equalTo('from', userProfile.source);
+        ownerOfQuery.includeAll();
+        const nfts = await ownerOfQuery.find() || [];
+        const nftsList = nfts.map((nft) => new Nft(nft));
+        return [...nftsList,...ownedItems];
     }
 
     static getWithFilters = async({category, status}) => {
@@ -339,7 +342,7 @@ export default class Nft {
         const query = new Moralis.Query('Transaction');
         query.equalTo('project', context.currentProject.source);
         if (status) query.equalTo('status', status);
-        if (category) query.equalTo('category', category);
+        if (category) query.equalTo('category', category.toLowerCase());
         query.includeAll();
         query.descending('updatedAt');
         const nfts = await query.find() || [];
@@ -348,19 +351,23 @@ export default class Nft {
     }
 
     static fullTextSearch = async(text) => {
-        const items = await Moralis.Cloud.run('search', { filter: text });
-        const itemList = items.map((item) => {
-            switch(item.className) {
-                case 'Transaction':
-                    return new Nft(item)
-                // case 'NFTCollection':
-                //     return new Collection(item);
-                case 'UserProfile':
-                    return new UserProfile(item);
-                default:
-                    return null;
-            }
-        });
-        return itemList;
+        const context = await UserProfile.getCurrentUserContext();
+        const TX = Moralis.Object.extend('Transaction');
+        const itemQuery = new Moralis.Query(TX);
+        itemQuery.equalTo('project', context.currentProject.source);
+        itemQuery.equalTo('status', 'OfferingPlaced');
+        itemQuery.contains('metadata.name', text);
+        itemQuery.limit(5);
+        itemQuery.includeAll();
+        const items = await itemQuery.find();
+        const Profile = Moralis.Object.extend('UserProfile');
+        const profileQuery = new Moralis.Query(Profile);
+        profileQuery.equalTo("project", context.currentProject.source);
+        profileQuery.fullText('username', text);
+        profileQuery.limit(5);
+        profileQuery.includeAll();
+        const profiles = await profileQuery.find();
+        const itemsFound = [...items.map((item) => new Nft(item)),...profiles.map((item) => new UserProfile(item))];
+        return itemsFound;
     }
 }
