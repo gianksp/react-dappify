@@ -25,7 +25,16 @@ export default class Project {
     }
 
     static load = async() => {
-        const domainName = parse(window.location.hostname);
+        const rawUrl =  window.location.hostname;
+        Logger.debug(`Raw url ${rawUrl}`);
+        let sanitizedUrl = rawUrl.replace('staging.','').replace('dev.','');
+        // Is explicit template defined, remove as well e.g. template.subdomain.<env_removed>.dappify.com
+        const uriComponents = sanitizedUrl.split('.');
+        if (uriComponents.length === 4) {
+            sanitizedUrl = sanitizedUrl.replace(`${process.env.REACT_APP_TEMPLATE_NAME}.`,'');
+        }
+        Logger.debug(`Sanitized url ${sanitizedUrl}`);
+        const domainName = parse(sanitizedUrl);
         const isDappifySubdomain = domainName.domainWithoutSuffix.toLocaleLowerCase() === Project.PLATFORM_DOMAIN;
         const searchKey = isDappifySubdomain ? 'subdomain' : 'domain';
         const searchValue = isDappifySubdomain ? domainName.subdomain ? domainName.subdomain : 'studio' : domainName.hostname;
