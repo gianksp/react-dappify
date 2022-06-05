@@ -57,7 +57,7 @@ const useDappify = () => {
           setNativeBalance(currBalance);
         }
         loadBalances();
-    }, [user]);
+    }, [user, configuration]);
 
     const onChainChange = (chainId) => {
       if (isEmpty(chainId)) return;

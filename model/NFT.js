@@ -4,8 +4,6 @@ import { ethers } from 'ethers';
 import UserProfile from 'react-dappify/model/UserProfile';
 import Collection from 'react-dappify/model/Collection';
 import Metadata from 'react-dappify/model/Metadata';
-import Like from 'react-dappify/model/Like';
-import Status from 'react-dappify/model/Status';
 import Marketplace from 'react-dappify/model/Marketplace';
 import TokenContract from 'react-dappify/contracts/ERC721TokenV1.sol/ERC721TokenV1.json';
 import Transaction from 'react-dappify/model/Transaction';
@@ -33,6 +31,7 @@ export default class Nft {
     offeringId;
     buyer;
     hash;
+    category;
 
     source;
 
@@ -50,13 +49,15 @@ export default class Nft {
         this.owner = nft.get('from') && new UserProfile(nft.get('from'));
         this.buyer = nft.get('to') && new UserProfile(nft.get('to'));
         this.metadataUri = nft.get('uri');
-        this.metadata = nft.get('metadata') && new Metadata(nft.get('metadata'));
+        this.metadata = new Metadata(nft.get('metadata'));
         this.price = nft.get('amount') || 0;
         this.createdAt = nft.get('createdAt');
         this.updatedAt = nft.get('updatedAt');
         this.offeringId = nft.get('uid');
         this.hash = nft.get('transactionHash');
+        this.category = nft.get('category');
         this.source = nft;
+        console.log(this);
         return this;
     }
 

@@ -5,6 +5,8 @@ import { getPreference, setPreference } from 'react-dappify/utils/localStorage';
 import isEmpty from 'lodash/isEmpty';
 import { Logger } from 'react-dappify/utils/log';
 import moment from 'moment';
+import axios from 'axios';
+import constants from 'react-dappify/constants';
 
 export default class Project {
 
@@ -75,7 +77,18 @@ export default class Project {
     static getTokenPrice = async() => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProject } = context;
-        const tokenPrice = await Moralis.Cloud.run('getTokenPrice', { address: currentProject.config.tokenContractAddress });
+        const chainId = currentProject.config.chainId;
+        let tokenPrice;
+        try {
+            tokenPrice = await axios.get(`https://deep-index.moralis.io/api/v2/erc20/${constants.PRICE_REF_ETH_MAINNET[chainId]}/price?chain=eth`, {
+                headers: {
+                    'X-API-Key': process.env.REACT_APP_MORALIS_API_KEY,
+                    accept: 'application/json'
+                }
+            });
+        } catch (e) {
+            Logger.error(e);
+        }
         return tokenPrice?.data ? tokenPrice.data : {};
     }
 
