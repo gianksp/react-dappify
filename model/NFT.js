@@ -57,7 +57,6 @@ export default class Nft {
         this.hash = nft.get('transactionHash');
         this.category = nft.get('category');
         this.source = nft;
-        console.log(this);
         return this;
     }
 
