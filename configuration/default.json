@@ -5,9 +5,9 @@
   "description": "",
   "operator": "",
   "subdomain": "my-subdomain",
-  "logo": "https://gateway.pinata.cloud//ipfs/QmZXpF98YKFq5zvjNrzmkwocMJJTKX1UngDAgxVSndS11J",
-  "icon": "https://gateway.pinata.cloud/ipfs/QmRnoN8iDP3wM1tPuukeTbjiVEZqQS4rDLFWzs24M2uChq",
   "chainId": "0x1",
+  "logo": "https://i.ibb.co/9yf7cgJ/output-onlinepngtools.png",
+  "icon": "https://ipfs.io/ipfs/QmZXpF98YKFq5zvjNrzmkwocMJJTKX1UngDAgxVSndS11J",
   "theme": {
     "shape": {
        "borderRadius": 8

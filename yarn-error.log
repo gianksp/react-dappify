@@ -1,0 +1,44 @@
+Arguments: 
+  /Users/giancarlosanchez/.nvm/versions/node/v17.8.0/bin/node /usr/local/bin/yarn login
+
+PATH: 
+  /Users/giancarlosanchez/.nvm/versions/node/v17.8.0/bin:/usr/local/opt/node@14/bin:/Users/giancarlosanchez/elrondsdk:/usr/local/sbin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/mongodb/bin:/usr/local/go/bin:/opt/X11/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/usr/local/go/bin:/bin:/usr/local/go/bin:/Users/giancarlosanchez/go/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  17.8.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:137008:13)
+      at Interface.emit (node:events:527:28)
+      at Interface.[_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1117:18)
+      at ReadStream.onkeypress (node:internal/readline/interface:269:20)
+      at ReadStream.emit (node:events:527:28)
+      at emitKeys (node:internal/readline/utils:358:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+      at ReadStream.emit (node:events:527:28)
+      at addChunk (node:internal/streams/readable:324:12)
+
+npm manifest: 
+  {
+    "name": "react-dappify",
+    "version": "0.0.1",
+    "description": "Dappify react library for templates",
+    "main": "index.js",
+    "repository": "https://github.com/DappifyWeb3/react-dappify.git",
+    "author": "Giancarlo Sanchez <gianksp@gmail.com>",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
