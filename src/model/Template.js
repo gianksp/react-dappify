@@ -2,13 +2,14 @@ import Moralis from 'moralis';
 import isEmpty from 'lodash/isEmpty';
 import { getPreference } from '../utils/localStorage';
 import constants from '../constants';
+import { forEach } from 'lodash';
 
 export default class Template {
 
     id;
     name;
     schema;
-
+    supportedChains;
     source;
 
     constructor(template) {
@@ -16,12 +17,18 @@ export default class Template {
         this.schema = template.get('schema');
         this.createdAt = template.get('createdAt');
         this.updatedAt = template.get('updatedAt');
+        this.supportedChains = template.get('supportedChains');
         this.source = template;
         return this;
     }
 
-    static listTemplates = async() => {
+    static listTemplates = async({ filters = [] }) => {
         const query = new Moralis.Query('Template');
+
+        filters.forEach((filter) => {
+          query.fullText(filter.key, filter.value);
+        });
+
         const response = await query.find() || {};
         const templates = response.map((tmp) => new Template(tmp));
         return templates;

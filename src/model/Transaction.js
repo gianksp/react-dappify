@@ -94,12 +94,17 @@ export default class Transaction {
         return await tx.save();
     }
 
-    static listByProject = async({ projectId, page = 0, limit = 20 }) => {
+    static listByProject = async({ projectId, page = 0, limit = 20, filters = [] }) => {
         const projects = new Moralis.Query('Project');
         projects.equalTo('objectId', projectId);
         const project = await projects.first();
         const query = new Moralis.Query('Transaction');
         query.equalTo('project', project);
+
+        filters.forEach((filter) => {
+          query.fullText(filter.key, filter.value);
+        });
+
         query.descending('updatedAt');
         query.limit(limit);
         query.skip(page*limit);

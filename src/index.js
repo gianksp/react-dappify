@@ -1,9 +1,10 @@
 import { DappifyProvider, DappifyContext } from './DappifyContext';
-import constants from './constants';
+import { supportedWallets } from './wallets';
 import { Logger } from './utils/log';
 import defaultConfiguration from './configuration/default.json';
 import utils from './utils';
-import { supportedWallets } from './wallets';
+import constants from './constants';
+import contracts from './contracts';
 
 import Attribute from './model/Attribute';
 import Collection from './model/Collection';
@@ -20,9 +21,12 @@ import UserProfile from './model/UserProfile';
 
 export { 
     DappifyProvider, 
-    DappifyContext, 
-    constants,
+    DappifyContext,
     Logger,
+    utils,
+    supportedWallets,
+    constants,
+    contracts,
     defaultConfiguration,
     Attribute,
     Collection,
@@ -35,7 +39,5 @@ export {
     Status,
     Template,
     Transaction,
-    UserProfile,
-    utils,
-    supportedWallets
+    UserProfile
 };
