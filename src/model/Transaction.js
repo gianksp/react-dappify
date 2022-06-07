@@ -102,7 +102,19 @@ export default class Transaction {
         query.equalTo('project', project);
 
         filters.forEach((filter) => {
-          query.fullText(filter.key, filter.value);
+            switch (filter?.type) {
+                case 'equalTo':
+                    query.equalTo(filter.key, filter.value);
+                    break;
+                case 'fullText':
+                    query.fullText(filter.key, filter.value);
+                    break;
+                case 'contains':
+                    query.contains(filter.key, filter.value);
+                    break;
+                default:
+                    query.equalTo(filter.key, filter.value);
+            }
         });
 
         query.descending('updatedAt');
