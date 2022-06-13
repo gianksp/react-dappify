@@ -35,6 +35,8 @@ export default class Nft {
     buyer;
     hash;
     category;
+    type;
+    quantity;
 
     source;
 
@@ -59,6 +61,8 @@ export default class Nft {
         this.offeringId = nft.get('uid');
         this.hash = nft.get('transactionHash');
         this.category = nft.get('category');
+        this.type = nft.get('type');
+        this.quantity = nft.get('quantity');
         this.source = nft;
         return this;
     }
@@ -73,10 +77,12 @@ export default class Nft {
         this.price = 0;
         this.likes = 0;
         this.views = 0;
+        this.type = nft.contract_type;
         this.createdAt = nft.synced_at;
         this.updatedAt = nft.synced_at;
         this.maxBid = 0;
         this.source = nft;
+        this.quantity = nft.amount;
         return this;
     }
 
