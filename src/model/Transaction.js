@@ -23,6 +23,8 @@ export default class Transaction {
     name;
     category;
     event;
+    type;
+    quantity;
 
     source;
 
@@ -46,6 +48,8 @@ export default class Transaction {
             this.category = tx.get('category');
             this.transactionHash = tx.get('transactionHash');
             this.status = tx.get('status');
+            this.type = tx.get('type');
+            this.quantity = tx.get('quantity');
             this.createdAt = moment(tx.get('createdAt'));
             this.updatedAt = moment(tx.get('updatedAt'));
             this.source = tx;
@@ -65,6 +69,8 @@ export default class Transaction {
             this.chainId = tx.chainId;
             this.category = tx.category;
             this.event = tx.event;
+            this.type = tx.type;
+            this.quantity = tx.quantity;
         }
         return this;
     }
@@ -90,6 +96,8 @@ export default class Transaction {
         tx.set('name', this.name);
         tx.set('chainId', this.chainId);
         tx.set('category', this.category);
+        tx.set('type', this.type);
+        tx.set('quantity', this.quantity);
         tx.set('transactionHash', this.transactionHash);
         return await tx.save();
     }

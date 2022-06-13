@@ -5,10 +5,13 @@ import UserProfile from '../model/UserProfile';
 import Collection from '../model/Collection';
 import Metadata from '../model/Metadata';
 import Marketplace from '../model/Marketplace';
-import TokenContract from '../contracts/ERC721TokenV1.sol/ERC721TokenV1.json';
+import TokenContract from '../contracts/ERC721DappifyV1.sol/ERC721DappifyV1.json';
 import Transaction from '../model/Transaction';
 import axios from 'axios';
 import { Logger } from '../utils/log';
+import constants from '../constants';
+
+const { STATUS } = constants;
 
 export default class Nft {
 
@@ -101,14 +104,14 @@ export default class Nft {
         // return await nft.save();
     }
 
-    sellTo = async(price, category) => {
+    sellTo = async(price, category, amount=1) => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProject } = context;
 
         // Soft check if we have already an OfferingPlaced for this item so we avoid duplicating from UI
         const query = new Moralis.Query('Transaction');
         query.equalTo('project', context.currentProject.source);
-        query.equalTo('status', "OfferingPlaced");
+        query.equalTo('status', STATUS.OFFERING_PLACED);
         query.equalTo('contract', this.collection.address);
         query.equalTo('tokenId', this.tokenId.toString());
         query.descending("updatedAt");
@@ -130,13 +133,14 @@ export default class Nft {
             await txApprove.wait();
         }
 
-        const transaction = await marketplace.contract.placeOffering(   this.collection.address, 
-                                                                        this.tokenId, 
+        const transaction = await marketplace.contract.placeOffering(   this.collection.address,
+                                                                        this.tokenId,
                                                                         ethers.utils.parseEther(JSON.stringify(price)),
-                                                                        currentProject.config.operator
+                                                                        currentProject.config.operator,
+                                                                        amount
                                                                     );
         const tx = await transaction.wait();
-        const event = tx.events.filter((e) => e.event === "OfferingPlaced")[0].args;
+        const event = tx.events.filter((e) => e.event === STATUS.OFFERING_PLACED)[0].args;
         const tokenURI = await tokenContact.tokenURI(this.tokenId);
         Logger.debug(tx);
         const dappifyTx = new Transaction({
@@ -146,29 +150,30 @@ export default class Nft {
             tokenId: this.tokenId,
             uri: tokenURI,
             metadata: this.metadata.source,
-            status: "OfferingPlaced",
+            status: STATUS.OFFERING_PLACED,
             symbol: this.collection.symbol,
             name: this.collection.name,
             chainId: chainId,
             category: category.toLowerCase(),
             transactionHash: tx.transactionHash,
-            event: tx
+            event: tx,
+            quantity: amount
         });
         await dappifyTx.save();
 
         return tx.transactionHash;
     }
 
-    purchase = async() => {
+    purchase = async(amount=1) => {
         const context = await UserProfile.getCurrentUserContext();
         const { currentProfile, currentProject } = context;
         const chainId = currentProject.config.chainId;
         const contractAddress = currentProject.config.template[process.env.REACT_APP_TEMPLATE_NAME].contract[chainId];
         let marketplace = new Marketplace(contractAddress);
         marketplace = await marketplace.init();
-        let transaction = await marketplace.contract.closeOffering(this.offeringId, { value: ethers.utils.parseEther(JSON.stringify(this.price)) });
+        let transaction = await marketplace.contract.closeOffering(this.offeringId, amount, { value: ethers.utils.parseEther(JSON.stringify(this.price * amount)) });
         const tx = await transaction.wait();
-        this.source.set('status', 'OfferingClosed');
+        this.source.set('status', STATUS.OFFERING_CLOSED);
         this.source.set('to', currentProfile.source);
         this.source.set('transactionHash', tx.transactionHash);
         await this.source.save();
@@ -204,7 +209,7 @@ export default class Nft {
         marketplace = await marketplace.init();
         let transaction = await marketplace.contract.withdrawOffering(this.offeringId);
         const tx = await transaction.wait();
-        this.source.set('status', 'OfferingWithdrawn');
+        this.source.set('status', STATUS.OFFERING_WITHDRAWN);
         this.source.set('transactionHash', tx.transactionHash);
         await this.source.save();
         return tx.transactionHash;
@@ -253,7 +258,7 @@ export default class Nft {
         const context = await UserProfile.getCurrentUserContext();
         const query = new Moralis.Query('Transaction');
         query.equalTo('project', context.currentProject.source);
-        query.equalTo('status', 'OfferingPlaced');
+        query.equalTo('status', STATUS.OFFERING_PLACED);
         query.descending('createdAt');
         query.limit(20);
         query.include('from');
@@ -266,7 +271,7 @@ export default class Nft {
         const context = await UserProfile.getCurrentUserContext();
         const query = new Moralis.Query('Transaction');
         query.equalTo('project', context.currentProject.source);
-        query.equalTo('status', 'OfferingPlaced');
+        query.equalTo('status', STATUS.OFFERING_PLACED);
         query.descending('createdAt');
         query.limit(20);
         query.include('from');
@@ -331,6 +336,7 @@ export default class Nft {
 
         const ownerOfQuery = new Moralis.Query('Transaction');
         ownerOfQuery.equalTo('from', userProfile.source);
+        ownerOfQuery.equalTo('status', STATUS.LAZY_MINTED);
         ownerOfQuery.includeAll();
         const nfts = await ownerOfQuery.find() || [];
         const nftsList = nfts.map((nft) => new Nft(nft));
@@ -355,7 +361,7 @@ export default class Nft {
         const TX = Moralis.Object.extend('Transaction');
         const itemQuery = new Moralis.Query(TX);
         itemQuery.equalTo('project', context.currentProject.source);
-        itemQuery.equalTo('status', 'OfferingPlaced');
+        itemQuery.equalTo('status', STATUS.OFFERING_PLACED);
         itemQuery.contains('metadata.name', text);
         itemQuery.limit(5);
         itemQuery.includeAll();

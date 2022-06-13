@@ -1,6 +1,6 @@
 import Moralis from 'moralis';
 import { ethers } from 'ethers';
-import MarketplaceContract from '../contracts/ERC721MarketplaceV1.sol/ERC721MarketplaceV1.json';
+import MarketplaceContract from '../contracts/NFTMarketplaceV1.sol/NFTMarketplaceV1.json';
 import { getProviderPreference } from '../utils/localStorage';
 import isEmpty from 'lodash/isEmpty';
 

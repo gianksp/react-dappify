@@ -91,7 +91,7 @@ const constants = {
               decimals: 18,
             },
             blockExplorerUrls: ["https://snowtrace.io/"]
-        },        
+        },
         "0xa869": {
             chainId: "0xa869",
             chainName: "Fuji Testnet",
@@ -116,9 +116,9 @@ const constants = {
         "0xa869": "0x85f138bfEE4ef8e540890CFb48F620571d67Eda3",
         "0x13881": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
         "0x5": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-        "0xa86a": "0x85f138bfEE4ef8e540890CFb48F620571d67Eda3", 
+        "0xa86a": "0x85f138bfEE4ef8e540890CFb48F620571d67Eda3",
         "0x38": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
-        "0x89": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0", 
+        "0x89": "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
         "0x1": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
     },
     MAINNETS: [
@@ -143,9 +143,9 @@ const constants = {
         "0xa869": "0xA05a64Af69AfA088fcd3D0D2f18147B4F21dDb09",
         "0x13881": "0xA05a64Af69AfA088fcd3D0D2f18147B4F21dDb09",
         "0x5": "0xA05a64Af69AfA088fcd3D0D2f18147B4F21dDb09",
-        "0xa86a": null, 
+        "0xa86a": null,
         "0x38": null,
-        "0x89": null, 
+        "0x89": null,
         "0x1": null
       },
       tokenizer: {
@@ -153,9 +153,9 @@ const constants = {
         "0xa869": null,
         "0x13881": null,
         "0x5": "0xD193ee256bC69701B5f55c22C4Af58f8e5A84222",
-        "0xa86a": null, 
+        "0xa86a": null,
         "0x38": null,
-        "0x89": null, 
+        "0x89": null,
         "0x1": null
       }
     },
@@ -172,10 +172,20 @@ const constants = {
       "0xa869": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/avalanche/testnet`,
       "0x13881": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/polygon/mumbai`,
       "0x5": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/eth/goerli`,
-      "0xa86a": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/avalanche/mainnet`, 
+      "0xa86a": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/avalanche/mainnet`,
       "0x38": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/bsc/mainnet`,
       "0x89": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/polygon/mainnet`,
       "0x1": `https://speedy-nodes-nyc.moralis.io/${process.env.REACT_APP_MORALIS_SPEEDY_NODES_KEY}/eth/mainnet`
+    },
+    STATUS: {
+      MINTED: 'Minted',
+      LAZY_MINTED: 'LazyMinted',
+      OFFERING_PLACED: 'OfferingPlaced',
+      OFFERING_WITHDRAWN: 'OfferingWithdrawn',
+      OFFERING_CLOSED: 'OfferingClosed',
+      CREATED: 'Created',
+      PENDING: 'Pending',
+      REMEEDED: 'Redeemed'
     }
 };
 

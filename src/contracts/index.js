@@ -1,11 +1,11 @@
 import contracts from './artifacts/contracts.json';
 import ERC721DappifyV1 from './ERC721DappifyV1.sol/ERC721DappifyV1.json';
-import ERC721MarketplaceV1 from './ERC721MarketplaceV1.sol/ERC721MarketplaceV1.json';
-import ERC721TokenV1 from './ERC721TokenV1.sol/ERC721TokenV1.json';
+import ERC1155DappifyV1 from './ERC1155DappifyV1.sol/ERC1155DappifyV1.json';
+import NFTMarketplaceV1 from './NFTMarketplaceV1.sol/NFTMarketplaceV1.json';
 
 export default {
 	contracts,
 	ERC721DappifyV1,
-	ERC721MarketplaceV1,
-	ERC721TokenV1
+	ERC1155DappifyV1,
+	NFTMarketplaceV1
 }
