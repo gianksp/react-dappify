@@ -13,8 +13,15 @@ const useDappify = () => {
     const [configuration, setConfiguration] = useState(defaultConfiguration);
     const [nativeBalance, setNativeBalance] = useState();
     const [isRightNetwork, setRightNetwork] = useState(false);
+    const [currentChain, setCurrentChain] = useState();
     const [project, setProject] = useState();
     const Provider = Moralis;
+
+    useEffect(() => {
+      if (isAuthenticated) {
+        setRightNetwork(currentChain === parseInt(configuration.chainId));
+      }
+    }, [configuration, currentChain, isAuthenticated]);
 
     useEffect(() => {
       const bootstrapProject = async () => {
@@ -22,16 +29,14 @@ const useDappify = () => {
         setProject(currentProject);
         setConfiguration(currentProject.config);
         Moralis.onChainChanged((chain) => {
-          onChainChange(chain);
+          getProviderInstance();
         });
         Moralis.onConnect((provider) => {
-          console.log(provider);
+          getProviderInstance();
         });
         Moralis.onAccountChanged((account) => {
-          console.log(account);
         });
         Moralis.onDisconnect((error) => {
-          console.log(error);
         });
       };
 
@@ -55,18 +60,11 @@ const useDappify = () => {
           });
           const currBalance = parseFloat(Moralis.Units.FromWei(balance.balance)).toFixed(4);
           setNativeBalance(currBalance);
+          getProviderInstance();
         }
         loadBalances();
     }, [user, configuration]);
 
-    const onChainChange = (chainId) => {
-      if (isEmpty(chainId)) return;
-      const targetNetwork = configuration?.chainId;
-      const isRight = chainId && chainId === targetNetwork;
-      setRightNetwork(isRight);
-      console.log(`Switching to ${chainId} isRightNetwork ${isRight}`);
-    }
-  
     const verifyNetwork = async() => {
         if (isEmpty(user)) return;
         if (isEmpty(provider)) return;
@@ -120,6 +118,9 @@ const useDappify = () => {
         const principal = configuration?.name || 'Dappify';
         pref.signingMessage = `${principal} wants to connect!`;
         web3 = await Moralis.enableWeb3(pref);
+        const net = await web3?.getNetwork();
+        const chainId = net?.chainId;
+        setCurrentChain(chainId);
       } catch(e) {
         Logger.error(e);
         console.log(e);
@@ -127,11 +128,11 @@ const useDappify = () => {
       return web3;
     }
 
-    return { 
-        configuration, 
-        authenticate, 
-        isAuthenticated, 
-        user, 
+    return {
+        configuration,
+        authenticate,
+        isAuthenticated,
+        user,
         logout,
         Provider,
         nativeBalance,
@@ -140,7 +141,8 @@ const useDappify = () => {
         project,
         provider,
         switchToChain,
-        getProviderInstance
+        getProviderInstance,
+        currentChain
     };
 };
 

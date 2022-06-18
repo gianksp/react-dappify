@@ -6,7 +6,7 @@ import { MoralisProvider } from 'react-moralis';
 export const DappifyContext = createContext(null);
 
 export const DappifyProvider = ({ children }) => (
-    <MoralisProvider appId={process.env.REACT_APP_MORALIS_APP_ID} serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}>
+    <MoralisProvider  appId={process.env.REACT_APP_MORALIS_APP_ID} serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}>
         <DappifyContextProvider>
             {children}
         </DappifyContextProvider>

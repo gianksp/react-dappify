@@ -84,9 +84,8 @@ export default class Project {
     }
 
     static getTokenPrice = async() => {
-        const context = await UserProfile.getCurrentUserContext();
-        const { currentProject } = context;
-        const chainId = currentProject.config.chainId;
+        const project = await Project.getInstance();
+        const chainId = project.config.chainId;
         let tokenPrice;
         try {
             tokenPrice = await axios.get(`https://deep-index.moralis.io/api/v2/erc20/${constants.PRICE_REF_ETH_MAINNET[chainId]}/price?chain=eth`, {
