@@ -1,6 +1,6 @@
 {
   "name": "react-dappify",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Dappify react library for templates",
   "author": "gianksp",
   "license": "MIT",
@@ -52,9 +52,12 @@
     "dist"
   ],
   "dependencies": {
+    "@walletconnect/web3-provider": "^1.8.0",
+    "@web3auth/web3auth": "^2.0.2",
     "axios": "^0.27.2",
     "ethers": "^5.6.8",
     "lodash": "^4.17.21",
+    "magic-sdk": "^9.0.0",
     "moment": "^2.29.3",
     "moralis": "^1.8.0",
     "react-moralis": "^1.4.0",
