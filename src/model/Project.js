@@ -18,6 +18,8 @@ export default class Project {
     source;
     createdAt;
     updatedAt;
+    hash;
+    url;
 
     static getInstance = async () => {
         if (Project.instance) return Project.instance;
@@ -59,6 +61,8 @@ export default class Project {
         this.createdAt = project?.attributes?.createdAt || moment();
         this.updatedAt = project?.attributes?.updatedAt || moment();
         this.source = project;
+        this.hash = project?.attributes?.hash;
+        this.url = project?.attributes?.url;
         return this;
     }
 
