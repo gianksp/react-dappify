@@ -98,24 +98,40 @@ export default class UserProfile {
         return this;
     }
 
-    static init = async(user) => {
-        const currentProject = await Project.getInstance();
-        const UserProfile = Moralis.Object.extend("UserProfile");
-        const query = new Moralis.Query(UserProfile);
-        query.equalTo("project", currentProject.source);
-        query.equalTo("user", user);
-        let profile = await query.first();
-        if (!profile) {
-            const Profile = Moralis.Object.extend('UserProfile');
-            profile = new Profile();
-            profile.set("project", currentProject.source);
-            profile.set("user", user);
-            profile.set("wallet", user.get("ethAddress"));
-            await profile.save();
-        } else {
-            return profile;
-        }
-
+    static init = async (user) => {
+      let profile;
+      const currentProject = await Project.getInstance();
+      const UserProfile = Moralis.Object.extend('UserProfile');
+      const query = new Moralis.Query(UserProfile);
+      query.equalTo('project', {
+        __type: 'Pointer',
+        className: 'Project',
+        objectId: currentProject?.id
+      });
+      query.equalTo('user', {
+        __type: 'Pointer',
+        className: '_User',
+        objectId: user.id
+      });
+      profile = await query.first();
+      if (!profile) {
+        const Profile = Moralis.Object.extend('UserProfile');
+        profile = new Profile();
+        profile.set('project', {
+          __type: 'Pointer',
+          className: 'Project',
+          objectId: currentProject?.id
+        });
+        profile.set('user', {
+          __type: 'Pointer',
+          className: '_User',
+          objectId: user.id
+        });
+        profile.set('username', user.get('username'));
+        profile.set('wallet', user.get('ethAddress'));
+        profile = await profile.save();
+      }
+      return profile;
     }
 
     static getCurrentUser = async() => {
@@ -127,8 +143,16 @@ export default class UserProfile {
         const currentProject = await Project.getInstance();
         const currentUser = Moralis.User.current();
         const query = new Moralis.Query('UserProfile');
-        query.equalTo('user', currentUser);
-        query.equalTo('project', currentProject.source);
+        query.equalTo('user', {
+          __type: 'Pointer',
+          className: '_User',
+          objectId: currentUser?.id
+        });
+        query.equalTo('project', {
+          __type: 'Pointer',
+          className: 'Project',
+          objectId: currentProject?.id
+        });
         const profile = await query.first();
         const currentProfile = new UserProfile(profile);
         return {
@@ -141,7 +165,11 @@ export default class UserProfile {
     static getRankingBySales = async() => {
         const currentProject = await Project.getInstance();
         const query = new Moralis.Query('UserProfile');
-        query.equalTo('project', currentProject.source);
+        query.equalTo('project', {
+          __type: 'Pointer',
+          className: 'Project',
+          objectId: currentProject?.id
+        });
         query.descending('totalSales');
         query.limit(12);
         const topSellers = await query.find() || [];
@@ -151,7 +179,11 @@ export default class UserProfile {
     static getUser = async(address) => {
         const currentProject = await Project.getInstance();
         const query = new Moralis.Query('UserProfile');
-        query.equalTo('project', currentProject.source);
+        query.equalTo('project', {
+          __type: 'Pointer',
+          className: 'Project',
+          objectId: currentProject?.id
+        });
         query.equalTo('wallet', address);
         query.includeAll();
         const user = await query.first();
@@ -163,7 +195,11 @@ export default class UserProfile {
         projects.equalTo('objectId', projectId);
         const project = await projects.first();
         const query = new Moralis.Query('UserProfile');
-        query.equalTo('project', project);
+        query.equalTo('project', {
+          __type: 'Pointer',
+          className: 'Project',
+          objectId: project?.id
+        });
         query.descending('totalSales');
         query.limit(limit);
         query.skip(page*limit);

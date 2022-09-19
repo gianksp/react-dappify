@@ -106,7 +106,11 @@ export default class Project {
 
     static listAll = async(user) => {
         const query = new Moralis.Query('Project');
-        query.equalTo('owner', user);
+        query.equalTo('owner',  {
+          __type: 'Pointer',
+          className: '_User',
+          objectId: user?.id
+        });
         query.descending('updatedAt');
         const result = await query.find();
         return result.map((project) => new Project(project));
@@ -123,7 +127,11 @@ export default class Project {
         const Project = Moralis.Object.extend('Project');
         const project = new Project();
         project.set('config', appConfiguration);
-        project.set('owner', user);
+        project.set('owner',  {
+          __type: 'Pointer',
+          className: '_User',
+          objectId: user?.id
+        });
         project.set('subdomain', appConfiguration.subdomain);
         const createdProject = await project.save();
         appConfiguration.appId = createdProject.id;
@@ -147,7 +155,11 @@ export default class Project {
         const Project = Moralis.Object.extend('Project');
         const query = new Moralis.Query(Project);
         query.equalTo('objectId', appId);
-        query.equalTo('owner', user);
+        query.equalTo('owner', {
+          __type: 'Pointer',
+          className: '_User',
+          objectId: user?.id
+        });
         return await query.first();
     }
 }
