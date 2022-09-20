@@ -47,10 +47,6 @@ const useDappify = () => {
         loadConfiguration(configuration);
     },[configuration]);
 
-    useEffect(() => {
-        verifyNetwork();
-    }, [provider]);
-
     const loadBalances = async () => {
       const balance = await Moralis.Web3API.account.getNativeBalance({
         chain: configuration.chainId,
