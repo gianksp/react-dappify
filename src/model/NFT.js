@@ -284,6 +284,37 @@ export default class Nft {
 
     }
 
+    refreshMetadata = async () => {
+      const chainId = this?.source?.attributes?.chainId
+      const tokenAddress = this?.source?.attributes?.contract
+      const tokenId = this?.source?.attributes?.tokenId
+      const incompleteNft = !this?.source?.attributes?.chainId ||
+                            !this?.source?.attributes?.contract ||
+                            !this?.source?.attributes?.tokenId
+      if (incompleteNft) return
+      await axios.get(
+        `https://deep-index.moralis.io/api/v2/nft/${tokenAddress}/${tokenId}/metadata/resync?chain=${chainId}&mode=sync`,
+        {
+          headers: {
+            'X-API-Key': process.env.REACT_APP_MORALIS_API_KEY,
+            accept: 'application/json'
+          }
+        }
+      )
+      const newMeta = await axios.get(
+        `https://deep-index.moralis.io/api/v2/nft/${tokenAddress}/${tokenId}?chain=${chainId}&format=decimal`,
+        {
+          headers: {
+            'X-API-Key': process.env.REACT_APP_MORALIS_API_KEY,
+            accept: 'application/json'
+          }
+        }
+      )
+      const metad = JSON.parse(newMeta.data.metadata)
+      this.source.set('metadata', metad)
+      await this.source.save()
+    }
+
     static getNewestDrops = async() => {
         Logger.debug('getNewestDrops');
         const project = await Project.getInstance();
@@ -349,15 +380,15 @@ export default class Nft {
         // return nftsList;
     }
 
-    static getFromUser = async(userProfile) => {
+    static getFromUser = async(userProfile, addressListFilter=[]) => {
         const project = await Project.getInstance();
         const chainId = project.config.chainId;
-
+        const tokenAddresses = addressListFilter && addressListFilter.length > 0 ? addressListFilter.map((addr) => `&token_addresses=${addr}`).join('') : '';
         if (!userProfile.wallet) return [];
 
         let items = [];
         try {
-            items = await axios.get(`https://deep-index.moralis.io/api/v2/${userProfile.wallet}/nft?chain=${chainId}&format=decimal`, {
+            items = await axios.get(`https://deep-index.moralis.io/api/v2/${userProfile.wallet}/nft?chain=${chainId}&format=decimal${tokenAddresses}`, {
                 headers: {
                     'X-API-Key': process.env.REACT_APP_MORALIS_API_KEY,
                     accept: 'application/json'
