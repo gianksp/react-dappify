@@ -92,7 +92,7 @@ export default class Project {
         const chainId = project.config.chainId;
         let tokenPrice;
         try {
-            tokenPrice = await axios.get(`https://deep-index.moralis.io/api/v2/erc20/${constants.PRICE_REF_ETH_MAINNET[chainId]}/price?chain=eth`, {
+            tokenPrice = await axios.get(`https://deep-index.moralis.io/api/v2/erc20/${constants.PRICE_REF_ETH_MAINNET[chainId]}/price?chain=${chainId}`, {
                 headers: {
                     'X-API-Key': process.env.REACT_APP_MORALIS_API_KEY,
                     accept: 'application/json'
