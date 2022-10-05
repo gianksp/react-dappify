@@ -417,8 +417,7 @@ export default class Nft {
   static fetchFromAPI = async (collectionAddress, tokenId) => {
     let nft
     try {
-      const context = await UserProfile.getCurrentUserContext()
-      const { currentProject } = context
+      const currentProject = await Project.getInstance()
       const chainId = currentProject.config.chainId
       nft = await axios.get(
         `https://deep-index.moralis.io/api/v2/nft/${collectionAddress}/${tokenId}?chain=${chainId}&format=decimal`,
