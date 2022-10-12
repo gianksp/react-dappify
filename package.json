@@ -1,0 +1,129 @@
+{
+  "name": "react-dappify",
+  "version": "1.0.39",
+  "description": "Dappify react library for templates",
+  "author": "gianksp",
+  "license": "MIT",
+  "repository": "gianksp/react-dappify",
+  "main": "dist/index.js",
+  "module": "dist/index.modern.js",
+  "source": "src/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "microbundle-crl --compress pretty --format modern,cjs",
+    "start": "microbundle-crl watch --no-compress --format modern,cjs",
+    "prepare": "husky install",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --collectCoverage=true",
+    "coverage": "jest --coverage",
+    "test:build": "run-s build",
+    "test:lint": "eslint .",
+    "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "predeploy": "cd example && yarn install && yarn run build",
+    "lint": "eslint --fix --ext .js,.jsx .",
+    "deploy": "gh-pages -d example/build"
+  },
+  "jest": {
+    "automock": true,
+    "testEnvironment": "jest-environment-jsdom",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/src",
+      "<rootDir>/node_modules/core-js-pure",
+      "<rootDir>/node_modules/react-moralis",
+      "<rootDir>/node_modules/moralis",
+      "<rootDir>/node_modules/walletlink"
+    ],
+    "rootDir": "./",
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "preset": "ts-jest",
+    "transform": {
+      "^.+\\.(ts|tsx)?$": "ts-jest",
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^uuid$": "uuid",
+      "^preact$": "preact"
+    },
+    "coverageReporters": [
+      "json",
+      "text",
+      "html",
+      "lcov"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*/*.d.ts",
+      "!src/**/*/types.ts",
+      "!src/**/store.ts",
+      "!src/index.tsx",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.19.4",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^29.1.2",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-config-standard-react": "^9.2.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^2.2.0",
+    "husky": "^8.0.1",
+    "jest": "^29.1.2",
+    "jest-environment-jsdom": "^29.1.2",
+    "microbundle-crl": "^0.13.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-error-overlay": "6.0.9",
+    "react-scripts": "^3.4.1",
+    "ts-jest": "^29.0.3"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@walletconnect/web3-provider": "^1.8.0",
+    "@web3auth/web3auth": "^2.0.2",
+    "axios": "^0.27.2",
+    "ethers": "^5.6.8",
+    "lodash": "^4.17.21",
+    "magic-sdk": "^9.0.0",
+    "moment": "^2.29.3",
+    "moralis": "^1.8.0",
+    "react-moralis": "^1.4.0",
+    "tldts": "^5.7.81",
+    "walletlink": "^2.5.0",
+    "web3": "^1.7.3"
+  }
+}
