@@ -4,8 +4,7 @@
     "standard",
     "standard-react",
     "plugin:prettier/recommended",
-    "prettier/standard",
-    "prettier/react"
+    "prettier"
   ],
   "env": {
     "node": true
@@ -19,15 +18,27 @@
   },
   "settings": {
     "react": {
-      "version": "16"
+      "version": "18"
     }
   },
+  "plugins": ["react", "react-hooks"],
   "rules": {
+    "no-undef": 0,
+    "camelcase": 0,
+    "handle-callback-err": 0,
+    "no-unused-vars": 0,
+    "react/no-unknown-property": 0,
+    "no-unused-expressions": 0,
+    "react/jsx-key": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "no-case-declarations": 0,
     "space-before-function-paren": 0,
     "react/prop-types": 0,
     "react/jsx-handler-names": 0,
     "react/jsx-fragments": 0,
     "react/no-unused-prop-types": 0,
-    "import/export": 0
+    "import/export": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }
